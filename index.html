@@ -4,68 +4,113 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#111827">
-<title>Remote Relay Control</title>
+<title>Relay Control</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif;background:#eef2f7;color:#111827}
-.card{width:min(92vw,430px);background:white;border-radius:24px;padding:28px;box-shadow:0 12px 40px rgba(0,0,0,.12);text-align:center}
+.card{width:min(92vw,430px);background:#fff;border-radius:24px;padding:28px;box-shadow:0 12px 40px rgba(0,0,0,.12);text-align:center}
 h1{margin:0 0 8px;font-size:28px}.sub{margin:0 0 24px;color:#6b7280}
-.status{border-radius:18px;padding:18px;margin-bottom:22px;font-size:22px;font-weight:700;background:#f3f4f6}
-.status.on{background:#dcfce7;color:#166534}.status.off{background:#fee2e2;color:#991b1b}
-button{width:100%;border:0;border-radius:16px;padding:18px;margin:8px 0;font-size:20px;font-weight:700;cursor:pointer}
-button:active{transform:scale(.98)}button:disabled{opacity:.55;cursor:wait}
-.onbtn{background:#16a34a;color:white}.offbtn{background:#dc2626;color:white}
-.message{min-height:24px;margin-top:14px;color:#4b5563;font-size:14px}
-.warning{margin-top:22px;font-size:12px;color:#9ca3af;line-height:1.5}
+.status{border-radius:18px;padding:18px;margin-bottom:22px;font-size:22px;font-weight:700;background:#fee2e2;color:#991b1b}
+.status.on{background:#dcfce7;color:#166534}
+input{width:100%;padding:16px;border:1px solid #d1d5db;border-radius:14px;font-size:20px;text-align:center;letter-spacing:4px;margin:8px 0 12px}
+button{width:100%;border:0;border-radius:16px;padding:17px;margin:7px 0;font-size:19px;font-weight:700;cursor:pointer}
+button:disabled{opacity:.55;cursor:wait}
+.login{background:#111827;color:white}.onbtn{background:#16a34a;color:white}.offbtn{background:#dc2626;color:white}
+.hidden{display:none}.message{min-height:24px;margin-top:12px;color:#4b5563;font-size:14px}
+.warning{margin-top:20px;font-size:12px;color:#9ca3af;line-height:1.5}
 </style>
 </head>
 <body>
+
 <div class="card">
-<h1>Remote Relay Control</h1>
-<p class="sub">ESP32 • GPIO 26</p>
-<div id="status" class="status off">● RELAY OFF</div>
-<button id="onBtn" class="onbtn" onclick="setRelay('1')">TURN ON</button>
-<button id="offBtn" class="offbtn" onclick="setRelay('0')">TURN OFF</button>
-<div id="message" class="message"></div>
-<div class="warning">Anyone who has this webpage URL can operate the relay.</div>
+
+  <div id="loginPanel">
+    <h1>Relay Control</h1>
+    <p class="sub">Enter password to continue</p>
+    <input id="password" type="password" inputmode="numeric" maxlength="4"
+           placeholder="••••" onkeydown="if(event.key==='Enter')login()">
+    <button class="login" onclick="login()">LOGIN</button>
+    <div id="loginMessage" class="message"></div>
+  </div>
+
+  <div id="controlPanel" class="hidden">
+    <h1>Remote Relay</h1>
+    <p class="sub">ESP32 • GPIO 26</p>
+
+    <div id="status" class="status">● RELAY OFF</div>
+
+    <button id="onBtn" class="onbtn" onclick="setRelay('1')">TURN ON</button>
+    <button id="offBtn" class="offbtn" onclick="setRelay('0')">TURN OFF</button>
+
+    <div id="message" class="message"></div>
+    <div class="warning">Keep this page private. The password is intended as a simple user-interface lock.</div>
+  </div>
+
 </div>
 
 <script>
+/*
+  IMPORTANT:
+  This is a client-side password. It prevents casual access to the
+  control screen, but it is NOT a secure server-side authentication
+  system. The Adafruit webhook URL is embedded in this page.
+*/
+
+const PASSWORD = "1234";
+
 const WEBHOOK_URL =
 "https://io.adafruit.com/api/v2/webhooks/feed/woZT9qdVzza8AzWgUCVYjWZrN4kY/raw";
 
-async function setRelay(value){
-  const onBtn=document.getElementById("onBtn");
-  const offBtn=document.getElementById("offBtn");
-  const status=document.getElementById("status");
-  const message=document.getElementById("message");
+function login() {
+  const p = document.getElementById("password").value;
+  const msg = document.getElementById("loginMessage");
 
-  onBtn.disabled=true; offBtn.disabled=true;
-  message.textContent="Sending command...";
+  if (p === PASSWORD) {
+    document.getElementById("loginPanel").classList.add("hidden");
+    document.getElementById("controlPanel").classList.remove("hidden");
+    msg.textContent = "";
+  } else {
+    msg.textContent = "Incorrect password.";
+    document.getElementById("password").value = "";
+  }
+}
 
-  try{
-    await fetch(WEBHOOK_URL,{
-      method:"POST",
-      mode:"no-cors",
-      headers:{"Content-Type":"text/plain"},
-      body:value
+async function setRelay(value) {
+  const onBtn = document.getElementById("onBtn");
+  const offBtn = document.getElementById("offBtn");
+  const status = document.getElementById("status");
+  const message = document.getElementById("message");
+
+  onBtn.disabled = true;
+  offBtn.disabled = true;
+  message.textContent = "Sending command...";
+
+  try {
+    await fetch(WEBHOOK_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: {"Content-Type": "text/plain"},
+      body: value
     });
 
-    if(value==="1"){
-      status.textContent="● RELAY ON";
-      status.className="status on";
-    }else{
-      status.textContent="● RELAY OFF";
-      status.className="status off";
+    if (value === "1") {
+      status.textContent = "● RELAY ON";
+      status.className = "status on";
+    } else {
+      status.textContent = "● RELAY OFF";
+      status.className = "status";
     }
-    message.textContent="Command sent successfully.";
-  }catch(error){
-    message.textContent="Could not send command. Check your internet connection.";
+
+    message.textContent = "Command sent.";
+  } catch (error) {
+    message.textContent = "Connection error. Please try again.";
     console.error(error);
   }
 
-  onBtn.disabled=false; offBtn.disabled=false;
+  onBtn.disabled = false;
+  offBtn.disabled = false;
 }
 </script>
+
 </body>
 </html>
