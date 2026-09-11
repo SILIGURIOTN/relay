@@ -1,116 +1,1652 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#111827">
-<title>Relay Control</title>
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Greenfield Smart Street Light</title>
+
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif;background:#eef2f7;color:#111827}
-.card{width:min(92vw,430px);background:#fff;border-radius:24px;padding:28px;box-shadow:0 12px 40px rgba(0,0,0,.12);text-align:center}
-h1{margin:0 0 8px;font-size:28px}.sub{margin:0 0 24px;color:#6b7280}
-.status{border-radius:18px;padding:18px;margin-bottom:22px;font-size:22px;font-weight:700;background:#fee2e2;color:#991b1b}
-.status.on{background:#dcfce7;color:#166534}
-input{width:100%;padding:16px;border:1px solid #d1d5db;border-radius:14px;font-size:20px;text-align:center;letter-spacing:4px;margin:8px 0 12px}
-button{width:100%;border:0;border-radius:16px;padding:17px;margin:7px 0;font-size:19px;font-weight:700;cursor:pointer}
-button:disabled{opacity:.55;cursor:wait}
-.login{background:#111827;color:white}.onbtn{background:#16a34a;color:white}.offbtn{background:#dc2626;color:white}
-.hidden{display:none}.message{min-height:24px;margin-top:12px;color:#4b5563;font-size:14px}
-.warning{margin-top:20px;font-size:12px;color:#9ca3af;line-height:1.5}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+
+    min-height: 100vh;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    color: white;
+
+    background:
+        radial-gradient(
+            circle at 50% 10%,
+            #263967,
+            #101b35 35%,
+            #050913 75%,
+            #02040a
+        );
+
+    overflow-x: hidden;
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+#loginScreen {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 9999;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #1c315a,
+            #03060e 70%
+        );
+}
+
+
+.loginBox {
+
+    width: min(90%, 390px);
+
+    padding: 38px 30px;
+
+    text-align: center;
+
+    border-radius: 28px;
+
+    background:
+        rgba(12, 22, 44, 0.90);
+
+    border:
+        1px solid rgba(255,255,255,0.12);
+
+    box-shadow:
+        0 30px 100px rgba(0,0,0,0.7);
+
+    backdrop-filter: blur(18px);
+
+    animation:
+        loginIn .7s ease;
+}
+
+
+@keyframes loginIn {
+
+    from {
+        opacity: 0;
+        transform: scale(.92) translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+
+.loginLamp {
+
+    font-size: 65px;
+
+    margin-bottom: 10px;
+
+    animation:
+        floatLamp 3s ease-in-out infinite;
+}
+
+
+@keyframes floatLamp {
+
+    0%,100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+
+.loginBox h1 {
+
+    font-size: 28px;
+
+    margin-bottom: 8px;
+}
+
+
+.loginBox p {
+
+    color: #8d9bb8;
+
+    font-size: 14px;
+
+    margin-bottom: 25px;
+}
+
+
+#password {
+
+    width: 100%;
+
+    padding: 15px;
+
+    border-radius: 13px;
+
+    border:
+        1px solid #36425d;
+
+    background: #070d1c;
+
+    color: white;
+
+    outline: none;
+
+    text-align: center;
+
+    font-size: 17px;
+}
+
+
+#password:focus {
+
+    border-color: #ffd84c;
+
+    box-shadow:
+        0 0 18px rgba(255,215,70,.18);
+}
+
+
+.loginButton {
+
+    width: 100%;
+
+    padding: 15px;
+
+    margin-top: 15px;
+
+    border: none;
+
+    border-radius: 13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffe45d,
+            #ff9f18
+        );
+
+    color: #171000;
+
+    font-weight: bold;
+
+    font-size: 15px;
+
+    cursor: pointer;
+}
+
+
+#error {
+
+    display: none;
+
+    margin-top: 13px;
+
+    color: #ff6565;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   APP
+========================================================= */
+
+#app {
+
+    display: none;
+
+    min-height: 100vh;
+
+    padding-bottom: 30px;
+
+    position: relative;
+}
+
+
+/* =========================================================
+   STARS
+========================================================= */
+
+.stars {
+
+    position: fixed;
+
+    inset: 0;
+
+    pointer-events: none;
+}
+
+
+.star {
+
+    position: absolute;
+
+    width: 2px;
+
+    height: 2px;
+
+    background: white;
+
+    border-radius: 50%;
+
+    opacity: .5;
+
+    animation:
+        twinkle 3s infinite alternate;
+}
+
+
+@keyframes twinkle {
+
+    from {
+        opacity: .15;
+    }
+
+    to {
+        opacity: .85;
+    }
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header {
+
+    text-align: center;
+
+    padding:
+        28px 15px 5px;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+
+.header h1 {
+
+    font-size:
+        clamp(26px, 6vw, 42px);
+}
+
+
+.header p {
+
+    color: #8b99b6;
+
+    margin-top: 7px;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   CONNECTION
+========================================================= */
+
+.statusBar {
+
+    margin-top: 13px;
+
+    display: flex;
+
+    justify-content: center;
+}
+
+
+.statusPill {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding:
+        7px 14px;
+
+    border-radius: 30px;
+
+    background:
+        rgba(255,255,255,.055);
+
+    border:
+        1px solid rgba(255,255,255,.08);
+
+    color: #a6b1c8;
+
+    font-size: 12px;
+}
+
+
+.statusDot {
+
+    width: 8px;
+
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: #777;
+}
+
+
+.statusDot.connected {
+
+    background: #42e38d;
+
+    box-shadow:
+        0 0 12px #42e38d;
+
+    animation:
+        connectionPulse 1.5s infinite;
+}
+
+
+@keyframes connectionPulse {
+
+    50% {
+        opacity: .35;
+    }
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.controlCard {
+
+    width: min(92%, 530px);
+
+    margin:
+        25px auto;
+
+    padding:
+        25px 20px 30px;
+
+    text-align: center;
+
+    position: relative;
+
+    z-index: 2;
+
+    border-radius: 30px;
+
+    background:
+        rgba(12, 22, 44, .75);
+
+    border:
+        1px solid rgba(255,255,255,.10);
+
+    box-shadow:
+        0 25px 80px rgba(0,0,0,.5);
+
+    backdrop-filter: blur(15px);
+
+    transition:
+        box-shadow .5s;
+}
+
+
+/* =========================================================
+   STREET
+========================================================= */
+
+.streetScene {
+
+    height: 285px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    border-radius: 25px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(8,14,30,.05),
+            rgba(4,8,17,.65)
+        );
+}
+
+
+/* Moon */
+
+.moon {
+
+    position: absolute;
+
+    right: 42px;
+
+    top: 24px;
+
+    width: 65px;
+
+    height: 65px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            #fffde8,
+            #e7dda9
+        );
+
+    box-shadow:
+        0 0 40px rgba(255,245,180,.35);
+}
+
+
+/* Road */
+
+.road {
+
+    position: absolute;
+
+    left: 0;
+
+    right: 0;
+
+    bottom: 0;
+
+    height: 70px;
+
+    background:
+        linear-gradient(
+            #191e2a,
+            #080b12
+        );
+}
+
+
+.roadLine {
+
+    position: absolute;
+
+    left: 0;
+
+    right: 0;
+
+    top: 34px;
+
+    height: 4px;
+
+    opacity: .3;
+
+    background:
+        repeating-linear-gradient(
+            90deg,
+            #aaa 0,
+            #aaa 35px,
+            transparent 35px,
+            transparent 75px
+        );
+}
+
+
+/* =========================================================
+   LAMP
+========================================================= */
+
+.lampPost {
+
+    position: absolute;
+
+    left: 50%;
+
+    bottom: 48px;
+
+    width: 9px;
+
+    height: 205px;
+
+    transform:
+        translateX(-50%);
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #171b25,
+            #69717f,
+            #171b25
+        );
+}
+
+
+.lampArm {
+
+    position: absolute;
+
+    top: 0;
+
+    left: 2px;
+
+    width: 105px;
+
+    height: 8px;
+
+    border-radius: 8px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #1b1f28,
+            #6b7280,
+            #1b1f28
+        );
+
+    transform:
+        rotate(-4deg);
+}
+
+
+.lampHead {
+
+    position: absolute;
+
+    left: 92px;
+
+    top: 0;
+
+    width: 37px;
+
+    height: 16px;
+
+    border-radius:
+        10px 10px 5px 5px;
+
+    background: #202632;
+
+    border:
+        2px solid #596273;
+}
+
+
+.lampBulb {
+
+    position: absolute;
+
+    left: 104px;
+
+    top: 11px;
+
+    width: 13px;
+
+    height: 13px;
+
+    border-radius: 50%;
+
+    background: #313746;
+
+    transition:
+        .5s;
+}
+
+
+/* =========================================================
+   BEAM
+========================================================= */
+
+.lightBeam {
+
+    position: absolute;
+
+    top: 9px;
+
+    left: calc(50% + 30px);
+
+    width: 180px;
+
+    height: 230px;
+
+    transform:
+        translateX(-50%);
+
+    clip-path:
+        polygon(
+            38% 0,
+            58% 0,
+            100% 100%,
+            0 100%
+        );
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(255,220,80,.38),
+            rgba(255,210,60,.10),
+            transparent
+        );
+
+    opacity: 0;
+
+    filter: blur(4px);
+
+    transition:
+        opacity .7s;
+}
+
+
+.light-on .lightBeam {
+
+    opacity: 1;
+
+    animation:
+        beamPulse 2s infinite;
+}
+
+
+@keyframes beamPulse {
+
+    0%,100% {
+        opacity: .65;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+
+.light-on .lampBulb {
+
+    background: #fff6a5;
+
+    box-shadow:
+        0 0 10px #fff6a5,
+        0 0 25px #ffd84d,
+        0 0 50px #ffad00;
+}
+
+
+.light-on {
+
+    background:
+        radial-gradient(
+            circle at 53% 45%,
+            rgba(255,211,65,.08),
+            transparent 45%
+        );
+}
+
+
+.light-on + .currentStatus {
+
+    color: #ffe46b;
+}
+
+
+/* =========================================================
+   STATUS TEXT
+========================================================= */
+
+.currentStatus {
+
+    margin-top: 5px;
+
+    font-size: 38px;
+
+    font-weight: 900;
+
+    letter-spacing: 3px;
+
+    color: #78839b;
+
+    transition:
+        .4s;
+}
+
+
+.currentStatus.on {
+
+    color: #ffe36c;
+
+    text-shadow:
+        0 0 25px rgba(255,220,80,.55);
+}
+
+
+#loading {
+
+    margin-top: 7px;
+
+    color: #8995ad;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   SWITCH
+========================================================= */
+
+.switchArea {
+
+    margin-top: 25px;
+}
+
+
+.switch {
+
+    position: relative;
+
+    display: inline-block;
+
+    width: 150px;
+
+    height: 70px;
+}
+
+
+.switch input {
+
+    opacity: 0;
+
+    width: 0;
+
+    height: 0;
+}
+
+
+.slider {
+
+    position: absolute;
+
+    inset: 0;
+
+    cursor: pointer;
+
+    border-radius: 50px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #293146,
+            #111827
+        );
+
+    border:
+        2px solid #3b465e;
+
+    transition: .4s;
+}
+
+
+.slider:before {
+
+    content: "";
+
+    position: absolute;
+
+    left: 6px;
+
+    top: 6px;
+
+    width: 54px;
+
+    height: 54px;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            145deg,
+            #9ba4b4,
+            #4b566c
+        );
+
+    box-shadow:
+        0 5px 15px rgba(0,0,0,.5);
+
+    transition: .4s;
+}
+
+
+input:checked + .slider {
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffe65e,
+            #ff9f1a
+        );
+
+    border-color: #ffe15a;
+
+    box-shadow:
+        0 0 28px rgba(255,207,55,.4);
+}
+
+
+input:checked + .slider:before {
+
+    transform:
+        translateX(80px);
+
+    background:
+        #fff7bd;
+
+    box-shadow:
+        0 0 20px rgba(255,238,140,.9);
+}
+
+
+.switchLabels {
+
+    width: 150px;
+
+    margin:
+        7px auto 0;
+
+    display: flex;
+
+    justify-content:
+        space-between;
+
+    color: #77839a;
+
+    font-size: 11px;
+
+    font-weight: bold;
+}
+
+
+/* =========================================================
+   INFO
+========================================================= */
+
+.info {
+
+    width: min(92%, 530px);
+
+    margin:
+        0 auto;
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 12px;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+
+.infoBox {
+
+    padding: 16px;
+
+    text-align: center;
+
+    border-radius: 18px;
+
+    background:
+        rgba(255,255,255,.045);
+
+    border:
+        1px solid rgba(255,255,255,.07);
+}
+
+
+.label {
+
+    color: #73809a;
+
+    font-size: 10px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+}
+
+
+.value {
+
+    margin-top: 7px;
+
+    font-size: 15px;
+
+    font-weight: bold;
+}
+
+
+@media(max-width:450px) {
+
+    .controlCard {
+        padding: 18px 12px 25px;
+    }
+
+    .streetScene {
+        height: 260px;
+    }
+
+    .currentStatus {
+        font-size: 31px;
+    }
+
+}
+
 </style>
+
 </head>
+
+
 <body>
 
-<div class="card">
 
-  <div id="loginPanel">
-    <h1>Relay Control</h1>
-    <p class="sub">Enter password to continue</p>
-    <input id="password" type="password" inputmode="numeric" maxlength="4"
-           placeholder="••••" onkeydown="if(event.key==='Enter')login()">
-    <button class="login" onclick="login()">LOGIN</button>
-    <div id="loginMessage" class="message"></div>
-  </div>
+<!-- =======================================================
+     LOGIN
+======================================================= -->
 
-  <div id="controlPanel" class="hidden">
-    <h1>Remote Relay</h1>
-    <p class="sub">ESP32 • GPIO 26</p>
+<div id="loginScreen">
 
-    <div id="status" class="status">● RELAY OFF</div>
+    <div class="loginBox">
 
-    <button id="onBtn" class="onbtn" onclick="setRelay('1')">TURN ON</button>
-    <button id="offBtn" class="offbtn" onclick="setRelay('0')">TURN OFF</button>
+        <div class="loginLamp">
+            💡
+        </div>
 
-    <div id="message" class="message"></div>
-    <div class="warning">Keep this page private. The password is intended as a simple user-interface lock.</div>
-  </div>
+        <h1>
+            Smart Street Light
+        </h1>
+
+        <p>
+            Greenfield Remote Control
+        </p>
+
+        <input
+            id="password"
+            type="password"
+            placeholder="Enter password"
+        >
+
+        <button
+            class="loginButton"
+            onclick="login()"
+        >
+            ENTER DASHBOARD
+        </button>
+
+        <div id="error">
+            Incorrect password
+        </div>
+
+    </div>
 
 </div>
 
+
+<!-- =======================================================
+     APP
+======================================================= -->
+
+<div id="app">
+
+    <div
+        class="stars"
+        id="stars">
+    </div>
+
+
+    <div class="header">
+
+        <h1>
+            🌙 Smart Street Light
+        </h1>
+
+        <p>
+            Remote Lighting Control
+        </p>
+
+
+        <div class="statusBar">
+
+            <div class="statusPill">
+
+                <span
+                    id="connectionDot"
+                    class="statusDot">
+                </span>
+
+                <span id="connectionText">
+                    Connecting...
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================
+         CONTROL
+    ==================================================== -->
+
+    <div
+        class="controlCard"
+        id="controlCard"
+    >
+
+        <div
+            class="streetScene"
+            id="streetScene"
+        >
+
+            <div class="moon"></div>
+
+            <div class="lightBeam"></div>
+
+            <div class="lampPost">
+
+                <div class="lampArm"></div>
+
+                <div class="lampHead"></div>
+
+                <div class="lampBulb"></div>
+
+            </div>
+
+            <div class="road">
+
+                <div class="roadLine"></div>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="currentStatus"
+            class="currentStatus"
+        >
+            OFF
+        </div>
+
+
+        <div id="loading">
+            Reading current status...
+        </div>
+
+
+        <div class="switchArea">
+
+            <label class="switch">
+
+                <input
+                    id="relaySwitch"
+                    type="checkbox"
+                    onchange="toggleRelay()"
+                >
+
+                <span class="slider"></span>
+
+            </label>
+
+
+            <div class="switchLabels">
+
+                <span>OFF</span>
+
+                <span>ON</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================
+         INFO
+    ==================================================== -->
+
+    <div class="info">
+
+        <div class="infoBox">
+
+            <div class="label">
+                Street Light
+            </div>
+
+            <div
+                class="value"
+                id="relayValue"
+            >
+                --
+            </div>
+
+        </div>
+
+
+        <div class="infoBox">
+
+            <div class="label">
+                Last Update
+            </div>
+
+            <div
+                class="value"
+                id="lastUpdate"
+            >
+                --
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
 <script>
+
+
+// =========================================================
+// SETTINGS
+// =========================================================
+
+const AIO_USERNAME = "Greenfield";
+
 /*
-  IMPORTANT:
-  This is a client-side password. It prevents casual access to the
-  control screen, but it is NOT a secure server-side authentication
-  system. The Adafruit webhook URL is embedded in this page.
+ IMPORTANT:
+ Paste your PREVIOUS Adafruit IO key here.
 */
+const AIO_KEY =
+    "PASTE_YOUR_PREVIOUS_ADAFRUIT_KEY_HERE";
+
 
 const PASSWORD = "1234";
 
-const WEBHOOK_URL =
-"https://io.adafruit.com/api/v2/webhooks/feed/woZT9qdVzza8AzWgUCVYjWZrN4kY/raw";
+const RELAY_FEED = "relay";
 
-function login() {
-  const p = document.getElementById("password").value;
-  const msg = document.getElementById("loginMessage");
+const STATUS_FEED = "relay-status";
 
-  if (p === PASSWORD) {
-    document.getElementById("loginPanel").classList.add("hidden");
-    document.getElementById("controlPanel").classList.remove("hidden");
-    msg.textContent = "";
-  } else {
-    msg.textContent = "Incorrect password.";
-    document.getElementById("password").value = "";
-  }
+
+// Check Adafruit IO every 3 seconds
+const UPDATE_INTERVAL = 3000;
+
+
+// Prevent multiple commands at the same time
+let commandBusy = false;
+
+
+// =========================================================
+// LOGIN
+// =========================================================
+
+function login()
+{
+    const password =
+        document.getElementById("password").value;
+
+    if (password === PASSWORD)
+    {
+        document.getElementById(
+            "loginScreen"
+        ).style.display = "none";
+
+        document.getElementById(
+            "app"
+        ).style.display = "block";
+
+        createStars();
+
+        getCurrentStatus();
+
+        setInterval(
+            getCurrentStatus,
+            UPDATE_INTERVAL
+        );
+    }
+    else
+    {
+        document.getElementById(
+            "error"
+        ).style.display = "block";
+
+        document.getElementById(
+            "password"
+        ).value = "";
+    }
 }
 
-async function setRelay(value) {
-  const onBtn = document.getElementById("onBtn");
-  const offBtn = document.getElementById("offBtn");
-  const status = document.getElementById("status");
-  const message = document.getElementById("message");
 
-  onBtn.disabled = true;
-  offBtn.disabled = true;
-  message.textContent = "Sending command...";
+// Enter key
 
-  try {
-    await fetch(WEBHOOK_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: {"Content-Type": "text/plain"},
-      body: value
-    });
+document
+    .getElementById("password")
+    .addEventListener(
+        "keydown",
+        function(event)
+        {
+            if (event.key === "Enter")
+            {
+                login();
+            }
+        }
+    );
 
-    if (value === "1") {
-      status.textContent = "● RELAY ON";
-      status.className = "status on";
-    } else {
-      status.textContent = "● RELAY OFF";
-      status.className = "status";
+
+// =========================================================
+// API HEADERS
+// =========================================================
+
+function apiHeaders()
+{
+    return {
+        "X-AIO-Key": AIO_KEY,
+        "Content-Type": "application/json"
+    };
+}
+
+
+// =========================================================
+// READ CURRENT STATE
+// =========================================================
+
+async function getCurrentStatus()
+{
+    try
+    {
+        const url =
+            "https://io.adafruit.com/api/v2/" +
+            AIO_USERNAME +
+            "/feeds/" +
+            RELAY_FEED +
+            "/data/last";
+
+
+        const response =
+            await fetch(
+                url,
+                {
+                    method: "GET",
+                    headers: apiHeaders(),
+                    cache: "no-store"
+                }
+            );
+
+
+        if (!response.ok)
+        {
+            throw new Error(
+                "Adafruit IO error"
+            );
+        }
+
+
+        const data =
+            await response.json();
+
+
+        const value =
+            String(data.value)
+            .trim()
+            .toUpperCase();
+
+
+        const state =
+            (
+                value === "ON" ||
+                value === "1"
+            );
+
+
+        updateInterface(state);
+
+        setConnection(true);
+
+
+        document.getElementById(
+            "loading"
+        ).textContent =
+            "Live status synchronized";
+
+
+        document.getElementById(
+            "lastUpdate"
+        ).textContent =
+            new Date().toLocaleTimeString();
+
+    }
+    catch(error)
+    {
+        console.error(error);
+
+        setConnection(false);
+
+        document.getElementById(
+            "loading"
+        ).textContent =
+            "Connection problem";
+    }
+}
+
+
+// =========================================================
+// SEND COMMAND
+// =========================================================
+
+async function sendCommand(state)
+{
+    if (commandBusy)
+    {
+        return;
     }
 
-    message.textContent = "Command sent.";
-  } catch (error) {
-    message.textContent = "Connection error. Please try again.";
-    console.error(error);
-  }
+    commandBusy = true;
 
-  onBtn.disabled = false;
-  offBtn.disabled = false;
+
+    const value =
+        state ? "ON" : "OFF";
+
+
+    try
+    {
+        const url =
+            "https://io.adafruit.com/api/v2/" +
+            AIO_USERNAME +
+            "/feeds/" +
+            RELAY_FEED +
+            "/data";
+
+
+        const response =
+            await fetch(
+                url,
+                {
+                    method: "POST",
+
+                    headers:
+                        apiHeaders(),
+
+                    body:
+                        JSON.stringify({
+                            value: value
+                        })
+                }
+            );
+
+
+        if (!response.ok)
+        {
+            throw new Error(
+                "Command rejected"
+            );
+        }
+
+
+        setConnection(true);
+
+
+        document.getElementById(
+            "loading"
+        ).textContent =
+            "Command sent successfully";
+
+
+        document.getElementById(
+            "lastUpdate"
+        ).textContent =
+            new Date().toLocaleTimeString();
+
+
+        // Wait briefly for ESP32 to process command
+        setTimeout(
+            getCurrentStatus,
+            1000
+        );
+
+    }
+    catch(error)
+    {
+        console.error(error);
+
+        document.getElementById(
+            "loading"
+        ).textContent =
+            "Command failed";
+
+        setConnection(false);
+
+        // Read actual state again
+        getCurrentStatus();
+    }
+    finally
+    {
+        commandBusy = false;
+    }
 }
+
+
+// =========================================================
+// TOGGLE
+// =========================================================
+
+function toggleRelay()
+{
+    const checkbox =
+        document.getElementById(
+            "relaySwitch"
+        );
+
+
+    const state =
+        checkbox.checked;
+
+
+    updateInterface(state);
+
+    sendCommand(state);
+}
+
+
+// =========================================================
+// UPDATE INTERFACE
+// =========================================================
+
+function updateInterface(state)
+{
+    const checkbox =
+        document.getElementById(
+            "relaySwitch"
+        );
+
+
+    const scene =
+        document.getElementById(
+            "streetScene"
+        );
+
+
+    const status =
+        document.getElementById(
+            "currentStatus"
+        );
+
+
+    const relayValue =
+        document.getElementById(
+            "relayValue"
+        );
+
+
+    checkbox.checked = state;
+
+
+    if (state)
+    {
+        scene.classList.add(
+            "light-on"
+        );
+
+        status.classList.add(
+            "on"
+        );
+
+        status.textContent =
+            "ON";
+
+        relayValue.textContent =
+            "ACTIVE";
+    }
+    else
+    {
+        scene.classList.remove(
+            "light-on"
+        );
+
+        status.classList.remove(
+            "on"
+        );
+
+        status.textContent =
+            "OFF";
+
+        relayValue.textContent =
+            "OFF";
+    }
+}
+
+
+// =========================================================
+// CONNECTION INDICATOR
+// =========================================================
+
+function setConnection(connected)
+{
+    const dot =
+        document.getElementById(
+            "connectionDot"
+        );
+
+
+    const text =
+        document.getElementById(
+            "connectionText"
+        );
+
+
+    if (connected)
+    {
+        dot.classList.add(
+            "connected"
+        );
+
+        text.textContent =
+            "Adafruit IO Connected";
+    }
+    else
+    {
+        dot.classList.remove(
+            "connected"
+        );
+
+        text.textContent =
+            "Connection Error";
+    }
+}
+
+
+// =========================================================
+// STARS
+// =========================================================
+
+function createStars()
+{
+    const container =
+        document.getElementById(
+            "stars"
+        );
+
+
+    for (
+        let i = 0;
+        i < 80;
+        i++
+    )
+    {
+        const star =
+            document.createElement(
+                "div"
+            );
+
+
+        star.className =
+            "star";
+
+
+        star.style.left =
+            Math.random() * 100 +
+            "%";
+
+
+        star.style.top =
+            Math.random() * 75 +
+            "%";
+
+
+        star.style.animationDelay =
+            Math.random() * 3 +
+            "s";
+
+
+        container.appendChild(
+            star
+        );
+    }
+}
+
 </script>
 
 </body>
+
 </html>
