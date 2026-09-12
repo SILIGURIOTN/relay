@@ -1,45 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+      content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+<meta name="theme-color" content="#02070d">
 
 <title>Greenfield Smart Street Light</title>
 
-
 <style>
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    -webkit-tap-highlight-color:transparent;
 }
 
-body {
-
-    min-height: 100vh;
-
+html,
+body{
+    width:100%;
+    min-height:100%;
+    background:#02060b;
+    color:#fff;
     font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
         Arial,
-        Helvetica,
         sans-serif;
+}
 
-    color: white;
-
-    background:
-        radial-gradient(
-            circle at 50% 10%,
-            #263967,
-            #101b35 35%,
-            #050913 75%,
-            #02040a
-        );
-
-    overflow-x: hidden;
+body{
+    overflow-x:hidden;
 }
 
 
@@ -47,180 +47,189 @@ body {
    LOGIN
 ========================================================= */
 
-#loginScreen {
+#loginScreen{
+    position:fixed;
+    inset:0;
+    z-index:99999;
 
-    position: fixed;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
-    inset: 0;
-
-    z-index: 9999;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
+    padding:22px;
 
     background:
         radial-gradient(
-            circle at center,
-            #1c315a,
-            #03060e 70%
+            circle at 50% 30%,
+            rgba(255,170,55,.15),
+            transparent 28%
+        ),
+        linear-gradient(
+            180deg,
+            #01050a 0%,
+            #06121d 55%,
+            #02070c 100%
         );
 }
 
+.loginBox{
+    width:min(390px,100%);
 
-.loginBox {
+    padding:34px 25px;
 
-    width: min(90%, 390px);
-
-    padding: 38px 30px;
-
-    text-align: center;
-
-    border-radius: 28px;
+    border-radius:30px;
 
     background:
-        rgba(12, 22, 44, 0.90);
+        linear-gradient(
+            145deg,
+            rgba(17,31,46,.9),
+            rgba(4,12,20,.88)
+        );
 
-    border:
-        1px solid rgba(255,255,255,0.12);
-
-    box-shadow:
-        0 30px 100px rgba(0,0,0,0.7);
-
-    backdrop-filter: blur(18px);
-
-    animation:
-        loginIn .7s ease;
-}
-
-
-@keyframes loginIn {
-
-    from {
-        opacity: 0;
-        transform: scale(.92) translateY(25px);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-    }
-}
-
-
-.loginLamp {
-
-    font-size: 65px;
-
-    margin-bottom: 10px;
-
-    animation:
-        floatLamp 3s ease-in-out infinite;
-}
-
-
-@keyframes floatLamp {
-
-    0%,100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-8px);
-    }
-}
-
-
-.loginBox h1 {
-
-    font-size: 28px;
-
-    margin-bottom: 8px;
-}
-
-
-.loginBox p {
-
-    color: #8d9bb8;
-
-    font-size: 14px;
-
-    margin-bottom: 25px;
-}
-
-
-#password {
-
-    width: 100%;
-
-    padding: 15px;
-
-    border-radius: 13px;
-
-    border:
-        1px solid #36425d;
-
-    background: #070d1c;
-
-    color: white;
-
-    outline: none;
-
-    text-align: center;
-
-    font-size: 17px;
-}
-
-
-#password:focus {
-
-    border-color: #ffd84c;
+    border:1px solid rgba(255,255,255,.1);
 
     box-shadow:
-        0 0 18px rgba(255,215,70,.18);
+        0 35px 90px rgba(0,0,0,.7),
+        inset 0 1px rgba(255,255,255,.08);
+
+    backdrop-filter:blur(25px);
+
+    text-align:center;
 }
 
+.loginLamp{
+    position:relative;
 
-.loginButton {
+    width:82px;
+    height:82px;
 
-    width: 100%;
+    margin:auto;
 
-    padding: 15px;
+    border-radius:50%;
 
-    margin-top: 15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
-    border: none;
+    font-size:38px;
 
-    border-radius: 13px;
+    background:
+        radial-gradient(
+            circle,
+            #fffbd1 0%,
+            #ffe47d 17%,
+            #ffae35 38%,
+            rgba(255,160,30,.08) 72%
+        );
+
+    box-shadow:
+        0 0 25px rgba(255,205,80,.8),
+        0 0 75px rgba(255,160,30,.35);
+
+    animation:
+        loginGlow 2.8s ease-in-out infinite alternate;
+}
+
+@keyframes loginGlow{
+
+    from{
+        transform:scale(.96);
+        filter:brightness(.9);
+    }
+
+    to{
+        transform:scale(1.04);
+        filter:brightness(1.2);
+    }
+}
+
+.loginTitle{
+    margin-top:22px;
+
+    font-size:25px;
+    font-weight:900;
+
+    letter-spacing:1px;
+}
+
+.loginSub{
+    margin-top:7px;
+
+    color:#8093a7;
+
+    font-size:12px;
+}
+
+.password{
+    width:100%;
+
+    margin-top:25px;
+
+    padding:15px 16px;
+
+    border-radius:16px;
+
+    outline:none;
+
+    color:white;
+
+    background:#07131f;
+
+    border:1px solid rgba(255,255,255,.09);
+
+    font-size:16px;
+}
+
+.password:focus{
+    border-color:rgba(255,194,73,.6);
+
+    box-shadow:
+        0 0 0 3px rgba(255,194,73,.08);
+}
+
+.loginButton{
+    width:100%;
+
+    margin-top:12px;
+
+    padding:15px;
+
+    border:0;
+    border-radius:16px;
+
+    color:#10151a;
+
+    font-size:13px;
+    font-weight:900;
+
+    letter-spacing:.5px;
+
+    cursor:pointer;
 
     background:
         linear-gradient(
             135deg,
-            #ffe45d,
-            #ff9f18
+            #ffe68a,
+            #ffb63c,
+            #ff9525
         );
 
-    color: #171000;
-
-    font-weight: bold;
-
-    font-size: 15px;
-
-    cursor: pointer;
+    box-shadow:
+        0 10px 30px rgba(255,166,40,.2);
 }
 
+.loginButton:active{
+    transform:scale(.98);
+}
 
-#error {
+.loginError{
+    display:none;
 
-    display: none;
+    margin-top:12px;
 
-    margin-top: 13px;
+    color:#ff7373;
 
-    color: #ff6565;
-
-    font-size: 13px;
+    font-size:12px;
 }
 
 
@@ -228,60 +237,38 @@ body {
    APP
 ========================================================= */
 
-#app {
+#app{
+    display:none;
 
-    display: none;
+    width:100%;
+    min-height:100vh;
 
-    min-height: 100vh;
-
-    padding-bottom: 30px;
-
-    position: relative;
+    background:
+        radial-gradient(
+            circle at 50% -10%,
+            rgba(29,71,105,.4),
+            transparent 40%
+        ),
+        #02070d;
 }
 
+.appShell{
+    width:100%;
+    max-width:560px;
 
-/* =========================================================
-   STARS
-========================================================= */
+    margin:auto;
 
-.stars {
+    min-height:100vh;
 
-    position: fixed;
+    background:
+        linear-gradient(
+            180deg,
+            rgba(4,13,22,.97),
+            rgba(2,8,13,.98)
+        );
 
-    inset: 0;
-
-    pointer-events: none;
-}
-
-
-.star {
-
-    position: absolute;
-
-    width: 2px;
-
-    height: 2px;
-
-    background: white;
-
-    border-radius: 50%;
-
-    opacity: .5;
-
-    animation:
-        twinkle 3s infinite alternate;
-}
-
-
-@keyframes twinkle {
-
-    from {
-        opacity: .15;
-    }
-
-    to {
-        opacity: .85;
-    }
+    box-shadow:
+        0 0 100px rgba(0,0,0,.65);
 }
 
 
@@ -289,643 +276,89 @@ body {
    HEADER
 ========================================================= */
 
-.header {
+.header{
+    position:relative;
+    z-index:100;
 
-    text-align: center;
-
-    padding:
-        28px 15px 5px;
-
-    position: relative;
-
-    z-index: 2;
-}
-
-
-.header h1 {
-
-    font-size:
-        clamp(26px, 6vw, 42px);
-}
-
-
-.header p {
-
-    color: #8b99b6;
-
-    margin-top: 7px;
-
-    font-size: 14px;
-}
-
-
-/* =========================================================
-   CONNECTION
-========================================================= */
-
-.statusBar {
-
-    margin-top: 13px;
-
-    display: flex;
-
-    justify-content: center;
-}
-
-
-.statusPill {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 8px;
+    height:67px;
 
     padding:
-        7px 14px;
+        11px
+        15px;
 
-    border-radius: 30px;
+    display:flex;
 
-    background:
-        rgba(255,255,255,.055);
+    align-items:center;
+    justify-content:space-between;
 
-    border:
-        1px solid rgba(255,255,255,.08);
-
-    color: #a6b1c8;
-
-    font-size: 12px;
-}
-
-
-.statusDot {
-
-    width: 8px;
-
-    height: 8px;
-
-    border-radius: 50%;
-
-    background: #777;
-}
-
-
-.statusDot.connected {
-
-    background: #42e38d;
-
-    box-shadow:
-        0 0 12px #42e38d;
-
-    animation:
-        connectionPulse 1.5s infinite;
-}
-
-
-@keyframes connectionPulse {
-
-    50% {
-        opacity: .35;
-    }
-}
-
-
-/* =========================================================
-   CARD
-========================================================= */
-
-.controlCard {
-
-    width: min(92%, 530px);
-
-    margin:
-        25px auto;
-
-    padding:
-        25px 20px 30px;
-
-    text-align: center;
-
-    position: relative;
-
-    z-index: 2;
-
-    border-radius: 30px;
+    border-bottom:
+        1px solid rgba(255,255,255,.06);
 
     background:
-        rgba(12, 22, 44, .75);
+        rgba(3,10,17,.76);
 
-    border:
-        1px solid rgba(255,255,255,.10);
-
-    box-shadow:
-        0 25px 80px rgba(0,0,0,.5);
-
-    backdrop-filter: blur(15px);
-
-    transition:
-        box-shadow .5s;
+    backdrop-filter:blur(22px);
 }
 
-
-/* =========================================================
-   STREET
-========================================================= */
-
-.streetScene {
-
-    height: 285px;
-
-    position: relative;
-
-    overflow: hidden;
-
-    border-radius: 25px;
-
-    background:
-        linear-gradient(
-            to bottom,
-            rgba(8,14,30,.05),
-            rgba(4,8,17,.65)
-        );
+.brand{
+    display:flex;
+    align-items:center;
+    gap:11px;
 }
 
+.brandLogo{
+    width:40px;
+    height:40px;
 
-/* Moon */
+    border-radius:13px;
 
-.moon {
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
-    position: absolute;
-
-    right: 42px;
-
-    top: 24px;
-
-    width: 65px;
-
-    height: 65px;
-
-    border-radius: 50%;
-
-    background:
-        radial-gradient(
-            circle at 35% 30%,
-            #fffde8,
-            #e7dda9
-        );
-
-    box-shadow:
-        0 0 40px rgba(255,245,180,.35);
-}
-
-
-/* Road */
-
-.road {
-
-    position: absolute;
-
-    left: 0;
-
-    right: 0;
-
-    bottom: 0;
-
-    height: 70px;
-
-    background:
-        linear-gradient(
-            #191e2a,
-            #080b12
-        );
-}
-
-
-.roadLine {
-
-    position: absolute;
-
-    left: 0;
-
-    right: 0;
-
-    top: 34px;
-
-    height: 4px;
-
-    opacity: .3;
-
-    background:
-        repeating-linear-gradient(
-            90deg,
-            #aaa 0,
-            #aaa 35px,
-            transparent 35px,
-            transparent 75px
-        );
-}
-
-
-/* =========================================================
-   LAMP
-========================================================= */
-
-.lampPost {
-
-    position: absolute;
-
-    left: 50%;
-
-    bottom: 48px;
-
-    width: 9px;
-
-    height: 205px;
-
-    transform:
-        translateX(-50%);
-
-    border-radius: 10px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #171b25,
-            #69717f,
-            #171b25
-        );
-}
-
-
-.lampArm {
-
-    position: absolute;
-
-    top: 0;
-
-    left: 2px;
-
-    width: 105px;
-
-    height: 8px;
-
-    border-radius: 8px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #1b1f28,
-            #6b7280,
-            #1b1f28
-        );
-
-    transform:
-        rotate(-4deg);
-}
-
-
-.lampHead {
-
-    position: absolute;
-
-    left: 92px;
-
-    top: 0;
-
-    width: 37px;
-
-    height: 16px;
-
-    border-radius:
-        10px 10px 5px 5px;
-
-    background: #202632;
-
-    border:
-        2px solid #596273;
-}
-
-
-.lampBulb {
-
-    position: absolute;
-
-    left: 104px;
-
-    top: 11px;
-
-    width: 13px;
-
-    height: 13px;
-
-    border-radius: 50%;
-
-    background: #313746;
-
-    transition:
-        .5s;
-}
-
-
-/* =========================================================
-   BEAM
-========================================================= */
-
-.lightBeam {
-
-    position: absolute;
-
-    top: 9px;
-
-    left: calc(50% + 30px);
-
-    width: 180px;
-
-    height: 230px;
-
-    transform:
-        translateX(-50%);
-
-    clip-path:
-        polygon(
-            38% 0,
-            58% 0,
-            100% 100%,
-            0 100%
-        );
-
-    background:
-        linear-gradient(
-            to bottom,
-            rgba(255,220,80,.38),
-            rgba(255,210,60,.10),
-            transparent
-        );
-
-    opacity: 0;
-
-    filter: blur(4px);
-
-    transition:
-        opacity .7s;
-}
-
-
-.light-on .lightBeam {
-
-    opacity: 1;
-
-    animation:
-        beamPulse 2s infinite;
-}
-
-
-@keyframes beamPulse {
-
-    0%,100% {
-        opacity: .65;
-    }
-
-    50% {
-        opacity: 1;
-    }
-}
-
-
-.light-on .lampBulb {
-
-    background: #fff6a5;
-
-    box-shadow:
-        0 0 10px #fff6a5,
-        0 0 25px #ffd84d,
-        0 0 50px #ffad00;
-}
-
-
-.light-on {
-
-    background:
-        radial-gradient(
-            circle at 53% 45%,
-            rgba(255,211,65,.08),
-            transparent 45%
-        );
-}
-
-
-.light-on + .currentStatus {
-
-    color: #ffe46b;
-}
-
-
-/* =========================================================
-   STATUS TEXT
-========================================================= */
-
-.currentStatus {
-
-    margin-top: 5px;
-
-    font-size: 38px;
-
-    font-weight: 900;
-
-    letter-spacing: 3px;
-
-    color: #78839b;
-
-    transition:
-        .4s;
-}
-
-
-.currentStatus.on {
-
-    color: #ffe36c;
-
-    text-shadow:
-        0 0 25px rgba(255,220,80,.55);
-}
-
-
-#loading {
-
-    margin-top: 7px;
-
-    color: #8995ad;
-
-    font-size: 12px;
-}
-
-
-/* =========================================================
-   SWITCH
-========================================================= */
-
-.switchArea {
-
-    margin-top: 25px;
-}
-
-
-.switch {
-
-    position: relative;
-
-    display: inline-block;
-
-    width: 150px;
-
-    height: 70px;
-}
-
-
-.switch input {
-
-    opacity: 0;
-
-    width: 0;
-
-    height: 0;
-}
-
-
-.slider {
-
-    position: absolute;
-
-    inset: 0;
-
-    cursor: pointer;
-
-    border-radius: 50px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #293146,
-            #111827
-        );
-
-    border:
-        2px solid #3b465e;
-
-    transition: .4s;
-}
-
-
-.slider:before {
-
-    content: "";
-
-    position: absolute;
-
-    left: 6px;
-
-    top: 6px;
-
-    width: 54px;
-
-    height: 54px;
-
-    border-radius: 50%;
+    font-size:20px;
 
     background:
         linear-gradient(
             145deg,
-            #9ba4b4,
-            #4b566c
+            #16344c,
+            #07111c
         );
 
-    box-shadow:
-        0 5px 15px rgba(0,0,0,.5);
-
-    transition: .4s;
-}
-
-
-input:checked + .slider {
-
-    background:
-        linear-gradient(
-            135deg,
-            #ffe65e,
-            #ff9f1a
-        );
-
-    border-color: #ffe15a;
+    border:
+        1px solid rgba(255,255,255,.1);
 
     box-shadow:
-        0 0 28px rgba(255,207,55,.4);
+        inset 0 1px rgba(255,255,255,.08);
 }
 
-
-input:checked + .slider:before {
-
-    transform:
-        translateX(80px);
-
-    background:
-        #fff7bd;
-
-    box-shadow:
-        0 0 20px rgba(255,238,140,.9);
+.brandName{
+    font-size:14px;
+    font-weight:900;
+    letter-spacing:.4px;
 }
 
+.brandSub{
+    margin-top:3px;
 
-.switchLabels {
+    font-size:9px;
 
-    width: 150px;
+    color:#72869b;
 
-    margin:
-        7px auto 0;
-
-    display: flex;
-
-    justify-content:
-        space-between;
-
-    color: #77839a;
-
-    font-size: 11px;
-
-    font-weight: bold;
+    letter-spacing:1px;
 }
 
+.connection{
+    display:flex;
+    align-items:center;
+    gap:7px;
 
-/* =========================================================
-   INFO
-========================================================= */
+    padding:7px 10px;
 
-.info {
+    border-radius:30px;
 
-    width: min(92%, 530px);
-
-    margin:
-        0 auto;
-
-    display: grid;
-
-    grid-template-columns:
-        1fr 1fr;
-
-    gap: 12px;
-
-    position: relative;
-
-    z-index: 2;
-}
-
-
-.infoBox {
-
-    padding: 16px;
-
-    text-align: center;
-
-    border-radius: 18px;
+    font-size:9px;
+    font-weight:900;
 
     background:
         rgba(255,255,255,.045);
@@ -934,56 +367,1219 @@ input:checked + .slider:before {
         1px solid rgba(255,255,255,.07);
 }
 
+.connectionDot{
+    width:8px;
+    height:8px;
 
-.label {
+    border-radius:50%;
 
-    color: #73809a;
+    background:#ff4759;
+}
 
-    font-size: 10px;
+.connection.live .connectionDot{
+    background:#43f38b;
 
-    text-transform: uppercase;
+    box-shadow:
+        0 0 13px #43f38b;
+}
 
-    letter-spacing: 1px;
+.connection.live{
+    color:#8effbd;
+}
+
+.connection.offline{
+    color:#ff7d89;
 }
 
 
-.value {
+/* =========================================================
+   CLOCK
+========================================================= */
 
-    margin-top: 7px;
+.clockBar{
+    position:relative;
+    z-index:80;
 
-    font-size: 15px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
 
-    font-weight: bold;
+    padding:
+        14px
+        17px
+        12px;
+}
+
+.time{
+    font-size:25px;
+
+    line-height:1;
+
+    font-weight:900;
+
+    letter-spacing:.5px;
+}
+
+.date{
+    margin-top:5px;
+
+    font-size:10px;
+
+    color:#71869a;
+}
+
+.networkText{
+    text-align:right;
+}
+
+.networkLabel{
+    color:#52677b;
+
+    font-size:8px;
+
+    text-transform:uppercase;
+
+    letter-spacing:1.2px;
+}
+
+.networkValue{
+    margin-top:4px;
+
+    font-size:11px;
+
+    font-weight:800;
 }
 
 
-@media(max-width:450px) {
+/* =========================================================
+   PREMIUM NIGHT SCENE
+========================================================= */
 
-    .controlCard {
-        padding: 18px 12px 25px;
+.scene{
+    position:relative;
+
+    height:505px;
+
+    margin:
+        0
+        10px;
+
+    overflow:hidden;
+
+    border-radius:30px;
+
+    border:
+        1px solid rgba(255,255,255,.08);
+
+    background:
+
+        radial-gradient(
+            circle at 50% 40%,
+            rgba(30,75,91,.20),
+            transparent 35%
+        ),
+
+        linear-gradient(
+            180deg,
+            #020814 0%,
+            #071525 45%,
+            #0b202b 73%,
+            #071016 100%
+        );
+
+    box-shadow:
+        0 25px 65px rgba(0,0,0,.55),
+        inset 0 1px rgba(255,255,255,.06);
+}
+
+
+/* =========================================================
+   MOON
+========================================================= */
+
+.moon{
+    position:absolute;
+
+    right:43px;
+    top:36px;
+
+    width:64px;
+    height:64px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle at 35% 32%,
+            #fffde5,
+            #ffe9ad 55%,
+            #e7c77b
+        );
+
+    box-shadow:
+        0 0 20px rgba(255,245,194,.65),
+        0 0 65px rgba(255,235,160,.18);
+}
+
+.moon:after{
+    content:"";
+
+    position:absolute;
+
+    width:62px;
+    height:62px;
+
+    left:18px;
+    top:-7px;
+
+    border-radius:50%;
+
+    background:#04101b;
+}
+
+
+/* =========================================================
+   STARS
+========================================================= */
+
+.star{
+    position:absolute;
+
+    width:2px;
+    height:2px;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    opacity:.55;
+
+    animation:
+        starBlink
+        3s
+        ease-in-out
+        infinite
+        alternate;
+}
+
+@keyframes starBlink{
+
+    from{
+        opacity:.15;
+        transform:scale(.7);
     }
 
-    .streetScene {
-        height: 260px;
+    to{
+        opacity:.9;
+        transform:scale(1.4);
+    }
+}
+
+
+/* =========================================================
+   FIRE FLIES
+========================================================= */
+
+.firefly{
+    position:absolute;
+
+    width:4px;
+    height:4px;
+
+    border-radius:50%;
+
+    background:#ffd978;
+
+    box-shadow:
+        0 0 9px #ffd978,
+        0 0 18px rgba(255,214,105,.5);
+
+    animation:
+        fly
+        var(--speed)
+        ease-in-out
+        infinite
+        alternate;
+}
+
+@keyframes fly{
+
+    0%{
+        transform:
+            translate(
+                0,
+                0
+            );
+
+        opacity:.15;
     }
 
-    .currentStatus {
-        font-size: 31px;
+    50%{
+        opacity:1;
     }
 
+    100%{
+        transform:
+            translate(
+                var(--x),
+                var(--y)
+            );
+
+        opacity:.25;
+    }
+}
+
+
+/* =========================================================
+   GROUND
+========================================================= */
+
+.ground{
+    position:absolute;
+
+    left:0;
+    right:0;
+    bottom:0;
+
+    height:150px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #10221f 0%,
+            #071512 45%,
+            #020806 100%
+        );
+}
+
+
+/* =========================================================
+   ROAD
+========================================================= */
+
+.road{
+    position:absolute;
+
+    left:50%;
+    bottom:-15px;
+
+    width:68%;
+    height:150px;
+
+    transform:translateX(-50%);
+
+    background:
+        linear-gradient(
+            90deg,
+            #11191d,
+            #1a2327,
+            #11191d
+        );
+
+    clip-path:
+        polygon(
+            20% 0,
+            80% 0,
+            100% 100%,
+            0 100%
+        );
+
+    box-shadow:
+        0 -10px 25px rgba(0,0,0,.2);
+}
+
+.roadLine{
+    position:absolute;
+
+    left:50%;
+    top:0;
+
+    width:3px;
+    height:100%;
+
+    transform:translateX(-50%);
+
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            rgba(238,224,155,.75) 0 17px,
+            transparent 17px 31px
+        );
+}
+
+
+/* =========================================================
+   GRASS
+========================================================= */
+
+.grass{
+    position:absolute;
+
+    bottom:72px;
+
+    width:100%;
+    height:50px;
+
+    background:
+        radial-gradient(
+            ellipse at 20% 100%,
+            #123426,
+            transparent 65%
+        ),
+        radial-gradient(
+            ellipse at 75% 100%,
+            #153b2b,
+            transparent 65%
+        );
+}
+
+
+/* =========================================================
+   KRISHNACHURA TREE SYSTEM
+========================================================= */
+
+.tree{
+    position:absolute;
+
+    width:190px;
+    height:340px;
+
+    bottom:72px;
+
+    transform-origin:
+        50%
+        100%;
+
+    z-index:20;
+
+    animation:
+        treeWind
+        var(--wind)
+        ease-in-out
+        infinite
+        alternate;
+}
+
+@keyframes treeWind{
+
+    0%{
+        transform:
+            rotate(
+                calc(var(--lean) * -1)
+            );
+    }
+
+    50%{
+        transform:
+            rotate(0deg);
+    }
+
+    100%{
+        transform:
+            rotate(var(--lean));
+    }
+}
+
+
+/* trunks */
+
+.trunkMain{
+    position:absolute;
+
+    bottom:0;
+    left:91px;
+
+    width:15px;
+    height:225px;
+
+    border-radius:10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #251811,
+            #5a3825 35%,
+            #7b5135 55%,
+            #2a1b13
+        );
+
+    transform:
+        rotate(-2deg);
+
+    box-shadow:
+        8px 0 15px rgba(0,0,0,.25);
+}
+
+.branch{
+    position:absolute;
+
+    height:8px;
+
+    border-radius:10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #2c1a12,
+            #68422b,
+            #3b2418
+        );
+
+    transform-origin:left center;
+}
+
+.branch1{
+    left:94px;
+    top:142px;
+    width:92px;
+    transform:rotate(-28deg);
+}
+
+.branch2{
+    left:94px;
+    top:108px;
+    width:105px;
+    transform:rotate(24deg);
+}
+
+.branch3{
+    left:97px;
+    top:78px;
+    width:83px;
+    transform:rotate(-18deg);
+}
+
+.branch4{
+    left:96px;
+    top:53px;
+    width:72px;
+    transform:rotate(20deg);
+}
+
+
+/* canopy */
+
+.canopy{
+    position:absolute;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle at 35% 28%,
+            #356746 0%,
+            #1e4b34 42%,
+            #0d2c20 78%,
+            #071a13 100%
+        );
+
+    box-shadow:
+        inset -12px -16px 25px rgba(0,0,0,.25),
+        0 15px 30px rgba(0,0,0,.3);
+
+    animation:
+        canopyMove
+        var(--leafspeed)
+        ease-in-out
+        infinite
+        alternate;
+}
+
+@keyframes canopyMove{
+
+    from{
+        transform:translateX(-2px);
+    }
+
+    to{
+        transform:translateX(3px);
+    }
+}
+
+.c1{
+    width:125px;
+    height:105px;
+    left:20px;
+    top:15px;
+}
+
+.c2{
+    width:130px;
+    height:115px;
+    left:63px;
+    top:23px;
+}
+
+.c3{
+    width:110px;
+    height:105px;
+    left:15px;
+    top:72px;
+}
+
+.c4{
+    width:125px;
+    height:110px;
+    left:66px;
+    top:83px;
+}
+
+.c5{
+    width:105px;
+    height:95px;
+    left:42px;
+    top:125px;
+}
+
+
+/* =========================================================
+   FLOWERS
+========================================================= */
+
+.flower{
+    position:absolute;
+
+    width:16px;
+    height:16px;
+
+    z-index:8;
+
+    animation:
+        flowerWind
+        var(--flower-speed)
+        ease-in-out
+        infinite
+        alternate;
+}
+
+@keyframes flowerWind{
+
+    from{
+        transform:
+            rotate(-3deg)
+            translateX(-1px);
+    }
+
+    to{
+        transform:
+            rotate(5deg)
+            translateX(3px);
+    }
+}
+
+.petal{
+    position:absolute;
+
+    width:8px;
+    height:8px;
+
+    border-radius:
+        70%
+        30%
+        70%
+        30%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff6b38,
+            #d92824
+        );
+
+    box-shadow:
+        0 0 5px rgba(255,68,39,.25);
+}
+
+.petal:nth-child(1){
+    left:4px;
+    top:0;
+}
+
+.petal:nth-child(2){
+    left:8px;
+    top:4px;
+    transform:rotate(72deg);
+}
+
+.petal:nth-child(3){
+    left:5px;
+    top:8px;
+    transform:rotate(145deg);
+}
+
+.petal:nth-child(4){
+    left:0;
+    top:5px;
+    transform:rotate(215deg);
+}
+
+.flowerCenter{
+    position:absolute;
+
+    width:4px;
+    height:4px;
+
+    left:6px;
+    top:6px;
+
+    border-radius:50%;
+
+    background:#ffce55;
+}
+
+
+/* =========================================================
+   INDIVIDUAL TREES
+========================================================= */
+
+.treeA{
+    left:-52px;
+
+    --wind:5s;
+    --lean:2.5deg;
+    --leafspeed:4.2s;
+    --flower-speed:3.1s;
+}
+
+.treeB{
+    right:-62px;
+
+    transform:scale(.95);
+
+    --wind:6.5s;
+    --lean:2deg;
+    --leafspeed:5s;
+    --flower-speed:4s;
+}
+
+.treeC{
+    left:76px;
+    bottom:80px;
+
+    transform:scale(.62);
+
+    opacity:.8;
+
+    --wind:7s;
+    --lean:1.8deg;
+    --leafspeed:4.7s;
+    --flower-speed:3.8s;
+}
+
+.treeD{
+    right:73px;
+    bottom:78px;
+
+    transform:scale(.58);
+
+    opacity:.75;
+
+    --wind:5.8s;
+    --lean:2.3deg;
+    --leafspeed:5.4s;
+    --flower-speed:3.6s;
+}
+
+
+/* =========================================================
+   STREET LIGHTS
+========================================================= */
+
+.streetLight{
+    position:absolute;
+
+    bottom:67px;
+
+    width:70px;
+    height:190px;
+
+    z-index:35;
+}
+
+.pole{
+    position:absolute;
+
+    bottom:0;
+    left:34px;
+
+    width:4px;
+    height:170px;
+
+    border-radius:5px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #28343c,
+            #9ba8ae,
+            #354149
+        );
+
+    box-shadow:
+        4px 0 10px rgba(0,0,0,.35);
+}
+
+.arm{
+    position:absolute;
+
+    left:34px;
+    top:15px;
+
+    width:42px;
+    height:4px;
+
+    border-radius:4px;
+
+    background:#64747c;
+
+    transform:
+        rotate(-6deg);
+}
+
+.lamp{
+    position:absolute;
+
+    left:71px;
+    top:10px;
+
+    width:15px;
+    height:9px;
+
+    border-radius:
+        8px
+        8px
+        5px
+        5px;
+
+    background:#64747d;
+
+    transition:.5s;
+}
+
+.lightBeam{
+    position:absolute;
+
+    left:55px;
+    top:18px;
+
+    width:65px;
+    height:125px;
+
+    opacity:0;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(255,222,125,.38),
+            rgba(255,199,72,.11),
+            transparent
+        );
+
+    clip-path:
+        polygon(
+            36% 0,
+            64% 0,
+            100% 100%,
+            0 100%
+        );
+
+    transition:
+        opacity .5s;
+}
+
+.lightOn .lamp{
+    background:#fff0ae;
+
+    box-shadow:
+        0 0 8px #fff5be,
+        0 0 18px #ffd66b,
+        0 0 32px rgba(255,188,58,.7);
+}
+
+.lightOn .lightBeam{
+    opacity:1;
+}
+
+.sl1{
+    left:17px;
+}
+
+.sl2{
+    right:17px;
+}
+
+.sl3{
+    left:50%;
+    transform:translateX(-50%) scale(.72);
+
+    bottom:65px;
+
+    opacity:.78;
+}
+
+
+/* =========================================================
+   CONTROL PANEL
+========================================================= */
+
+.control{
+    position:relative;
+
+    z-index:100;
+
+    margin:
+        -31px
+        18px
+        0;
+
+    padding:20px;
+
+    border-radius:25px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(15,30,43,.94),
+            rgba(4,12,20,.95)
+        );
+
+    border:
+        1px solid rgba(255,255,255,.1);
+
+    box-shadow:
+        0 25px 60px rgba(0,0,0,.58),
+        inset 0 1px rgba(255,255,255,.07);
+
+    backdrop-filter:blur(24px);
+}
+
+.controlHeader{
+    display:flex;
+
+    align-items:center;
+    justify-content:space-between;
+}
+
+.controlTitle{
+    font-size:15px;
+    font-weight:900;
+}
+
+.controlSubtitle{
+    margin-top:4px;
+
+    color:#71859a;
+
+    font-size:10px;
+}
+
+.relaySwitch{
+    position:relative;
+
+    width:76px;
+    height:42px;
+}
+
+.relaySwitch input{
+    display:none;
+}
+
+.slider{
+    position:absolute;
+    inset:0;
+
+    border-radius:30px;
+
+    background:#152331;
+
+    border:
+        1px solid rgba(255,255,255,.1);
+
+    cursor:pointer;
+
+    transition:.35s;
+}
+
+.slider:before{
+    content:"";
+
+    position:absolute;
+
+    left:5px;
+    top:5px;
+
+    width:30px;
+    height:30px;
+
+    border-radius:50%;
+
+    background:#71808b;
+
+    box-shadow:
+        0 4px 10px rgba(0,0,0,.55);
+
+    transition:.35s;
+}
+
+.relaySwitch input:checked + .slider{
+    background:
+        linear-gradient(
+            135deg,
+            #ffd95e,
+            #ff9d25
+        );
+
+    box-shadow:
+        0 0 25px rgba(255,176,48,.28);
+}
+
+.relaySwitch input:checked + .slider:before{
+    transform:translateX(34px);
+
+    background:white;
+
+    box-shadow:
+        0 0 12px rgba(255,255,255,.8);
+}
+
+.statusRow{
+    display:flex;
+
+    align-items:end;
+    justify-content:space-between;
+
+    margin-top:18px;
+}
+
+.bigStatus{
+    font-size:27px;
+
+    line-height:1;
+
+    font-weight:950;
+}
+
+.bigStatus.on{
+    color:#ffda67;
+
+    text-shadow:
+        0 0 25px rgba(255,193,57,.35);
+}
+
+.bigStatus.off{
+    color:#718395;
+}
+
+.statusDescription{
+    margin-top:7px;
+
+    color:#667c91;
+
+    font-size:10px;
+}
+
+
+/* =========================================================
+   INFO CARDS
+========================================================= */
+
+.infoGrid{
+    position:relative;
+    z-index:100;
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:10px;
+
+    padding:
+        14px
+        18px
+        22px;
+}
+
+.infoCard{
+    min-height:88px;
+
+    padding:14px;
+
+    border-radius:18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(13,27,41,.85),
+            rgba(5,14,23,.9)
+        );
+
+    border:
+        1px solid rgba(255,255,255,.065);
+
+    box-shadow:
+        inset 0 1px rgba(255,255,255,.04);
+}
+
+.infoIcon{
+    font-size:17px;
+}
+
+.infoLabel{
+    margin-top:10px;
+
+    color:#61758a;
+
+    font-size:8px;
+
+    text-transform:uppercase;
+
+    letter-spacing:1px;
+}
+
+.infoValue{
+    margin-top:5px;
+
+    font-size:12px;
+
+    font-weight:900;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer{
+    padding:
+        2px
+        20px
+        28px;
+
+    text-align:center;
+
+    color:#354858;
+
+    font-size:8px;
+
+    letter-spacing:1px;
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.loading{
+    position:fixed;
+
+    inset:0;
+
+    z-index:999999;
+
+    display:none;
+
+    align-items:center;
+    justify-content:center;
+
+    background:
+        rgba(0,0,0,.3);
+
+    backdrop-filter:blur(3px);
+}
+
+.spinner{
+    width:38px;
+    height:38px;
+
+    border:
+        3px solid rgba(255,255,255,.15);
+
+    border-top-color:#ffd15d;
+
+    border-radius:50%;
+
+    animation:
+        spin
+        .75s
+        linear
+        infinite;
+}
+
+@keyframes spin{
+
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media(max-width:380px){
+
+    .scene{
+        height:470px;
+    }
+
+    .treeA{
+        left:-82px;
+        transform:scale(.88);
+    }
+
+    .treeB{
+        right:-90px;
+        transform:scale(.82);
+    }
+
+    .time{
+        font-size:22px;
+    }
+
+    .bigStatus{
+        font-size:23px;
+    }
+
+    .control{
+        margin-left:14px;
+        margin-right:14px;
+    }
+
+    .infoGrid{
+        padding-left:14px;
+        padding-right:14px;
+    }
+}
+
+
+/* =========================================================
+   DESKTOP CENTER
+========================================================= */
+
+@media(min-width:700px){
+
+    body{
+        background:#010409;
+    }
+
+    .appShell{
+        box-shadow:
+            0 0 120px rgba(0,0,0,.8);
+    }
 }
 
 </style>
-
 </head>
 
 
 <body>
 
 
-<!-- =======================================================
-     LOGIN
-======================================================= -->
+<!-- ======================================================
+     LOGIN SCREEN
+====================================================== -->
 
 <div id="loginScreen">
 
@@ -993,28 +1589,33 @@ input:checked + .slider:before {
             💡
         </div>
 
-        <h1>
-            Smart Street Light
-        </h1>
+        <div class="loginTitle">
+            GREENFIELD
+        </div>
 
-        <p>
-            Greenfield Remote Control
-        </p>
+        <div class="loginSub">
+            SMART STREET LIGHT CONTROL
+        </div>
 
         <input
             id="password"
+            class="password"
             type="password"
-            placeholder="Enter password"
+            placeholder="Enter dashboard password"
+            autocomplete="off"
         >
 
         <button
             class="loginButton"
             onclick="login()"
         >
-            ENTER DASHBOARD
+            OPEN DASHBOARD
         </button>
 
-        <div id="error">
+        <div
+            id="loginError"
+            class="loginError"
+        >
             Incorrect password
         </div>
 
@@ -1023,42 +1624,36 @@ input:checked + .slider:before {
 </div>
 
 
-<!-- =======================================================
-     APP
-======================================================= -->
+
+<!-- ======================================================
+     APPLICATION
+====================================================== -->
 
 <div id="app">
 
-    <div
-        class="stars"
-        id="stars">
-    </div>
+<div class="appShell">
 
 
-    <div class="header">
+<!-- ======================================================
+     HEADER
+====================================================== -->
 
-        <h1>
-            🌙 Smart Street Light
-        </h1>
+<header class="header">
 
-        <p>
-            Remote Lighting Control
-        </p>
+    <div class="brand">
 
+        <div class="brandLogo">
+            🌺
+        </div>
 
-        <div class="statusBar">
+        <div>
 
-            <div class="statusPill">
+            <div class="brandName">
+                GREENFIELD
+            </div>
 
-                <span
-                    id="connectionDot"
-                    class="statusDot">
-                </span>
-
-                <span id="connectionText">
-                    Connecting...
-                </span>
-
+            <div class="brandSub">
+                SMART STREET LIGHT
             </div>
 
         </div>
@@ -1066,260 +1661,790 @@ input:checked + .slider:before {
     </div>
 
 
-    <!-- ===================================================
-         CONTROL
-    ==================================================== -->
-
     <div
-        class="controlCard"
-        id="controlCard"
+        id="connection"
+        class="connection offline"
     >
 
+        <span class="connectionDot"></span>
+
+        <span id="connectionText">
+            NOT CONNECTED
+        </span>
+
+    </div>
+
+</header>
+
+
+
+<!-- ======================================================
+     CLOCK
+====================================================== -->
+
+<section class="clockBar">
+
+    <div>
+
         <div
-            class="streetScene"
-            id="streetScene"
+            id="liveTime"
+            class="time"
         >
+            --:--:--
+        </div>
 
-            <div class="moon"></div>
+        <div
+            id="liveDate"
+            class="date"
+        >
+            Loading...
+        </div>
 
-            <div class="lightBeam"></div>
+    </div>
 
-            <div class="lampPost">
 
-                <div class="lampArm"></div>
+    <div class="networkText">
 
-                <div class="lampHead"></div>
+        <div class="networkLabel">
+            SYSTEM
+        </div>
 
-                <div class="lampBulb"></div>
+        <div
+            id="systemText"
+            class="networkValue"
+        >
+            CONNECTING
+        </div>
 
+    </div>
+
+</section>
+
+
+
+<!-- ======================================================
+     PREMIUM KRISHNACHURA SCENE
+====================================================== -->
+
+<section class="scene">
+
+
+    <!-- STARS -->
+
+    <span class="star"
+          style="left:8%;top:13%"></span>
+
+    <span class="star"
+          style="left:18%;top:25%"></span>
+
+    <span class="star"
+          style="left:29%;top:10%"></span>
+
+    <span class="star"
+          style="left:40%;top:21%"></span>
+
+    <span class="star"
+          style="left:52%;top:12%"></span>
+
+    <span class="star"
+          style="left:63%;top:27%"></span>
+
+    <span class="star"
+          style="left:74%;top:9%"></span>
+
+    <span class="star"
+          style="left:88%;top:25%"></span>
+
+
+    <!-- MOON -->
+
+    <div class="moon"></div>
+
+
+    <!-- FIREFLIES -->
+
+    <span
+        class="firefly"
+        style="
+            left:18%;
+            top:57%;
+            --x:20px;
+            --y:-35px;
+            --speed:4s;
+        "
+    ></span>
+
+    <span
+        class="firefly"
+        style="
+            left:30%;
+            top:66%;
+            --x:-15px;
+            --y:-28px;
+            --speed:5.5s;
+        "
+    ></span>
+
+    <span
+        class="firefly"
+        style="
+            left:70%;
+            top:59%;
+            --x:18px;
+            --y:-40px;
+            --speed:4.8s;
+        "
+    ></span>
+
+    <span
+        class="firefly"
+        style="
+            left:82%;
+            top:70%;
+            --x:-20px;
+            --y:-30px;
+            --speed:6s;
+        "
+    ></span>
+
+
+    <!-- GROUND -->
+
+    <div class="ground"></div>
+
+    <div class="grass"></div>
+
+
+    <!-- ROAD -->
+
+    <div class="road">
+
+        <div class="roadLine"></div>
+
+    </div>
+
+
+    <!-- ==================================================
+         LARGE KRISHNACHURA TREE LEFT
+    ================================================== -->
+
+    <div class="tree treeA">
+
+        <div class="trunkMain"></div>
+
+        <div class="branch branch1"></div>
+        <div class="branch branch2"></div>
+        <div class="branch branch3"></div>
+        <div class="branch branch4"></div>
+
+
+        <div class="canopy c1"></div>
+        <div class="canopy c2"></div>
+        <div class="canopy c3"></div>
+        <div class="canopy c4"></div>
+        <div class="canopy c5"></div>
+
+
+        <!-- FLOWERS -->
+
+        <div class="flower"
+             style="left:45px;top:45px">
+            <span class="petal"></span>
+            <span class="petal"></span>
+            <span class="petal"></span>
+            <span class="petal"></span>
+            <span class="flowerCenter"></span>
+        </div>
+
+        <div class="flower"
+             style="left:104px;top:55px">
+            <span class="petal"></span>
+            <span class="petal"></span>
+            <span class="petal"></span>
+            <span class="petal"></span>
+            <span class="flowerCenter"></span>
+        </div>
+
+        <div class="flower"
+             style="left:73px;top:103px">
+            <span class="petal"></span>
+            <span class="petal"></span>
+            <span class="petal"></span>
+            <span class="petal"></span>
+            <span class="flowerCenter"></span>
+        </div>
+
+        <div class="flower"
+             style="left:126px;top:112px">
+            <span class="petal"></span>
+            <span class="petal"></span>
+            <span class="petal"></span>
+            <span class="petal"></span>
+            <span class="flowerCenter"></span>
+        </div>
+
+        <div class="flower"
+             style="left:45px;top:144px">
+            <span class="petal"></span>
+            <span class="petal"></span>
+            <span class="petal"></span>
+            <span class="petal"></span>
+            <span class="flowerCenter"></span>
+        </div>
+
+    </div>
+
+
+
+    <!-- ==================================================
+         LARGE KRISHNACHURA TREE RIGHT
+    ================================================== -->
+
+    <div class="tree treeB">
+
+        <div class="trunkMain"></div>
+
+        <div class="branch branch1"></div>
+        <div class="branch branch2"></div>
+        <div class="branch branch3"></div>
+        <div class="branch branch4"></div>
+
+        <div class="canopy c1"></div>
+        <div class="canopy c2"></div>
+        <div class="canopy c3"></div>
+        <div class="canopy c4"></div>
+        <div class="canopy c5"></div>
+
+
+        <div class="flower"
+             style="left:42px;top:50px">
+            <span class="petal"></span>
+            <span class="petal"></span>
+            <span class="petal"></span>
+            <span class="petal"></span>
+            <span class="flowerCenter"></span>
+        </div>
+
+        <div class="flower"
+             style="left:112px;top:45px">
+            <span class="petal"></span>
+            <span class="petal"></span>
+            <span class="petal"></span>
+            <span class="petal"></span>
+            <span class="flowerCenter"></span>
+        </div>
+
+        <div class="flower"
+             style="left:70px;top:94px">
+            <span class="petal"></span>
+            <span class="petal"></span>
+            <span class="petal"></span>
+            <span class="petal"></span>
+            <span class="flowerCenter"></span>
+        </div>
+
+        <div class="flower"
+             style="left:135px;top:122px">
+            <span class="petal"></span>
+            <span class="petal"></span>
+            <span class="petal"></span>
+            <span class="petal"></span>
+            <span class="flowerCenter"></span>
+        </div>
+
+        <div class="flower"
+             style="left:46px;top:138px">
+            <span class="petal"></span>
+            <span class="petal"></span>
+            <span class="petal"></span>
+            <span class="petal"></span>
+            <span class="flowerCenter"></span>
+        </div>
+
+    </div>
+
+
+
+    <!-- ==================================================
+         BACKGROUND TREES
+    ================================================== -->
+
+    <div class="tree treeC">
+
+        <div class="trunkMain"></div>
+
+        <div class="branch branch1"></div>
+        <div class="branch branch2"></div>
+        <div class="branch branch3"></div>
+
+        <div class="canopy c1"></div>
+        <div class="canopy c2"></div>
+        <div class="canopy c3"></div>
+
+    </div>
+
+
+    <div class="tree treeD">
+
+        <div class="trunkMain"></div>
+
+        <div class="branch branch1"></div>
+        <div class="branch branch2"></div>
+        <div class="branch branch3"></div>
+
+        <div class="canopy c1"></div>
+        <div class="canopy c2"></div>
+        <div class="canopy c3"></div>
+
+    </div>
+
+
+
+    <!-- ==================================================
+         STREET LIGHT 1
+    ================================================== -->
+
+    <div class="streetLight sl1">
+
+        <div class="pole"></div>
+
+        <div class="arm"></div>
+
+        <div class="lamp"></div>
+
+        <div class="lightBeam"></div>
+
+    </div>
+
+
+
+    <!-- ==================================================
+         STREET LIGHT 2
+    ================================================== -->
+
+    <div class="streetLight sl2">
+
+        <div class="pole"></div>
+
+        <div class="arm"></div>
+
+        <div class="lamp"></div>
+
+        <div class="lightBeam"></div>
+
+    </div>
+
+
+
+    <!-- ==================================================
+         CENTER DISTANT LIGHT
+    ================================================== -->
+
+    <div class="streetLight sl3">
+
+        <div class="pole"></div>
+
+        <div class="arm"></div>
+
+        <div class="lamp"></div>
+
+        <div class="lightBeam"></div>
+
+    </div>
+
+
+</section>
+
+
+
+<!-- ======================================================
+     CONTROL
+====================================================== -->
+
+<section class="control">
+
+    <div class="controlHeader">
+
+        <div>
+
+            <div class="controlTitle">
+                Premises Street Lights
             </div>
 
-            <div class="road">
-
-                <div class="roadLine"></div>
-
+            <div class="controlSubtitle">
+                Main relay control
             </div>
 
         </div>
 
+
+        <label class="relaySwitch">
+
+            <input
+                id="relaySwitch"
+                type="checkbox"
+                onchange="toggleRelay()"
+            >
+
+            <span class="slider"></span>
+
+        </label>
+
+    </div>
+
+
+    <div class="statusRow">
+
+        <div>
+
+            <div
+                id="mainStatus"
+                class="bigStatus off"
+            >
+                LIGHTS OFF
+            </div>
+
+            <div
+                id="statusDescription"
+                class="statusDescription"
+            >
+                Street lights are currently switched off
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ======================================================
+     STATUS
+====================================================== -->
+
+<section class="infoGrid">
+
+
+    <div class="infoCard">
+
+        <div class="infoIcon">
+            💡
+        </div>
+
+        <div class="infoLabel">
+            Light Status
+        </div>
 
         <div
             id="currentStatus"
-            class="currentStatus"
+            class="infoValue"
         >
             OFF
         </div>
 
+    </div>
 
-        <div id="loading">
-            Reading current status...
+
+    <div class="infoCard">
+
+        <div class="infoIcon">
+            📡
         </div>
 
+        <div class="infoLabel">
+            Connection
+        </div>
 
-        <div class="switchArea">
-
-            <label class="switch">
-
-                <input
-                    id="relaySwitch"
-                    type="checkbox"
-                    onchange="toggleRelay()"
-                >
-
-                <span class="slider"></span>
-
-            </label>
-
-
-            <div class="switchLabels">
-
-                <span>OFF</span>
-
-                <span>ON</span>
-
-            </div>
-
+        <div
+            id="connectionCard"
+            class="infoValue"
+        >
+            NOT CONNECTED
         </div>
 
     </div>
 
 
-    <!-- ===================================================
-         INFO
-    ==================================================== -->
+    <div class="infoCard">
 
-    <div class="info">
-
-        <div class="infoBox">
-
-            <div class="label">
-                Street Light
-            </div>
-
-            <div
-                class="value"
-                id="relayValue"
-            >
-                --
-            </div>
-
+        <div class="infoIcon">
+            🌺
         </div>
 
+        <div class="infoLabel">
+            Last ON
+        </div>
 
-        <div class="infoBox">
-
-            <div class="label">
-                Last Update
-            </div>
-
-            <div
-                class="value"
-                id="lastUpdate"
-            >
-                --
-            </div>
-
+        <div
+            id="lastOn"
+            class="infoValue"
+        >
+            --
         </div>
 
     </div>
+
+
+    <div class="infoCard">
+
+        <div class="infoIcon">
+            🌙
+        </div>
+
+        <div class="infoLabel">
+            Last OFF
+        </div>
+
+        <div
+            id="lastOff"
+            class="infoValue"
+        >
+            --
+        </div>
+
+    </div>
+
+
+</section>
+
+
+<div class="footer">
+
+    GREENFIELD • SMART STREET LIGHT • KRISHNACHURA NIGHT
 
 </div>
 
 
+</div>
+</div>
+
+
+
+<!-- ======================================================
+     LOADING
+====================================================== -->
+
+<div
+    id="loading"
+    class="loading"
+>
+
+    <div class="spinner"></div>
+
+</div>
+
+
+
 <script>
 
-
-// =========================================================
-// SETTINGS
-// =========================================================
+/* =========================================================
+   ADAFRUIT IO CONFIGURATION
+========================================================= */
 
 const AIO_USERNAME = "Greenfield";
 
-/*
- IMPORTANT:
- Paste your PREVIOUS Adafruit IO key here.
-*/
 const AIO_KEY =
-    "PASTE_YOUR_PREVIOUS_ADAFRUIT_KEY_HERE";
+    "aio_aslC19WRtvkEnnBZx4Q0tf6mA7yZ";
+
+const AIO_FEED = "relay";
+
+const AIO_BASE =
+    "https://io.adafruit.com/api/v2/" +
+    AIO_USERNAME +
+    "/feeds/" +
+    AIO_FEED;
+
+const DASHBOARD_PASSWORD = "1234";
 
 
-const PASSWORD = "1234";
+/* =========================================================
+   VARIABLES
+========================================================= */
 
-const RELAY_FEED = "relay";
+let relayState = false;
 
-const STATUS_FEED = "relay-status";
+let previousState = null;
 
+let lastOnTime = null;
 
-// Check Adafruit IO every 3 seconds
-const UPDATE_INTERVAL = 3000;
+let lastOffTime = null;
 
-
-// Prevent multiple commands at the same time
-let commandBusy = false;
+let polling = false;
 
 
-// =========================================================
-// LOGIN
-// =========================================================
+/* =========================================================
+   LOGIN
+========================================================= */
 
-function login()
-{
+function login(){
+
     const password =
         document.getElementById("password").value;
 
-    if (password === PASSWORD)
-    {
-        document.getElementById(
-            "loginScreen"
-        ).style.display = "none";
+    if(password === DASHBOARD_PASSWORD){
 
-        document.getElementById(
-            "app"
-        ).style.display = "block";
+        document.getElementById("loginScreen")
+            .style.display = "none";
 
-        createStars();
+        document.getElementById("app")
+            .style.display = "block";
 
-        getCurrentStatus();
+        startDashboard();
 
-        setInterval(
-            getCurrentStatus,
-            UPDATE_INTERVAL
-        );
     }
-    else
-    {
-        document.getElementById(
-            "error"
-        ).style.display = "block";
+    else{
 
-        document.getElementById(
-            "password"
-        ).value = "";
+        document.getElementById("loginError")
+            .style.display = "block";
+
     }
+
 }
 
-
-// Enter key
 
 document
     .getElementById("password")
     .addEventListener(
         "keydown",
-        function(event)
-        {
-            if (event.key === "Enter")
-            {
+        function(event){
+
+            if(event.key === "Enter"){
                 login();
             }
+
         }
     );
 
 
-// =========================================================
-// API HEADERS
-// =========================================================
+/* =========================================================
+   LIVE CLOCK
+========================================================= */
 
-function apiHeaders()
-{
-    return {
-        "X-AIO-Key": AIO_KEY,
-        "Content-Type": "application/json"
-    };
+function updateClock(){
+
+    const now = new Date();
+
+    document.getElementById("liveTime")
+        .textContent =
+        now.toLocaleTimeString(
+            "en-IN",
+            {
+                hour:"2-digit",
+                minute:"2-digit",
+                second:"2-digit",
+                hour12:true
+            }
+        );
+
+    document.getElementById("liveDate")
+        .textContent =
+        now.toLocaleDateString(
+            "en-IN",
+            {
+                weekday:"long",
+                day:"2-digit",
+                month:"long",
+                year:"numeric"
+            }
+        );
+
+}
+
+updateClock();
+
+setInterval(
+    updateClock,
+    1000
+);
+
+
+/* =========================================================
+   CONNECTION STATUS
+========================================================= */
+
+function setConnection(connected){
+
+    const box =
+        document.getElementById("connection");
+
+    const text =
+        document.getElementById("connectionText");
+
+    const card =
+        document.getElementById("connectionCard");
+
+    const system =
+        document.getElementById("systemText");
+
+
+    if(connected){
+
+        box.classList.remove("offline");
+
+        box.classList.add("live");
+
+        text.textContent = "LIVE";
+
+        card.textContent = "CONNECTED";
+
+        system.textContent = "ONLINE";
+
+    }
+    else{
+
+        box.classList.remove("live");
+
+        box.classList.add("offline");
+
+        text.textContent = "NOT CONNECTED";
+
+        card.textContent = "OFFLINE";
+
+        system.textContent = "CONNECTION LOST";
+
+    }
+
 }
 
 
-// =========================================================
-// READ CURRENT STATE
-// =========================================================
+/* =========================================================
+   READ LATEST ADAFRUIT IO VALUE
+========================================================= */
 
-async function getCurrentStatus()
-{
-    try
-    {
-        const url =
-            "https://io.adafruit.com/api/v2/" +
-            AIO_USERNAME +
-            "/feeds/" +
-            RELAY_FEED +
-            "/data/last";
+async function getRelayState(){
 
+    if(polling){
+        return;
+    }
+
+    polling = true;
+
+    try{
 
         const response =
             await fetch(
-                url,
+                AIO_BASE + "/data/last",
                 {
-                    method: "GET",
-                    headers: apiHeaders(),
-                    cache: "no-store"
+                    method:"GET",
+
+                    headers:{
+                        "X-AIO-Key":AIO_KEY,
+                        "Accept":"application/json"
+                    },
+
+                    cache:"no-store"
                 }
             );
 
 
-        if (!response.ok)
-        {
+        if(!response.ok){
+
             throw new Error(
-                "Adafruit IO error"
+                "HTTP " +
+                response.status
             );
+
         }
 
 
@@ -1327,326 +2452,384 @@ async function getCurrentStatus()
             await response.json();
 
 
-        const value =
-            String(data.value)
-            .trim()
-            .toUpperCase();
-
-
-        const state =
-            (
-                value === "ON" ||
-                value === "1"
-            );
-
-
-        updateInterface(state);
-
         setConnection(true);
 
 
-        document.getElementById(
-            "loading"
-        ).textContent =
-            "Live status synchronized";
+        const value =
+            String(data.value)
+                .trim()
+                .toLowerCase();
 
 
-        document.getElementById(
-            "lastUpdate"
-        ).textContent =
-            new Date().toLocaleTimeString();
+        const state =
+            value === "on" ||
+            value === "1" ||
+            value === "true";
+
+
+        applyRelayState(state);
 
     }
-    catch(error)
-    {
-        console.error(error);
+    catch(error){
+
+        console.error(
+            "Adafruit IO:",
+            error
+        );
 
         setConnection(false);
 
-        document.getElementById(
-            "loading"
-        ).textContent =
-            "Connection problem";
     }
+    finally{
+
+        polling = false;
+
+    }
+
 }
 
 
-// =========================================================
-// SEND COMMAND
-// =========================================================
+/* =========================================================
+   APPLY RELAY STATE
+========================================================= */
 
-async function sendCommand(state)
-{
-    if (commandBusy)
-    {
-        return;
+function applyRelayState(state){
+
+    /*
+       Only record ON/OFF time when the
+       actual state changes.
+    */
+
+    if(
+        previousState !== null &&
+        previousState !== state
+    ){
+
+        if(state){
+
+            lastOnTime =
+                new Date();
+
+        }
+        else{
+
+            lastOffTime =
+                new Date();
+
+        }
+
     }
 
-    commandBusy = true;
 
+    previousState = state;
+
+    relayState = state;
+
+    updateInterface(state);
+
+}
+
+
+/* =========================================================
+   UPDATE SCENE
+========================================================= */
+
+function updateInterface(state){
+
+    const switchElement =
+        document.getElementById(
+            "relaySwitch"
+        );
+
+    const status =
+        document.getElementById(
+            "mainStatus"
+        );
+
+    const description =
+        document.getElementById(
+            "statusDescription"
+        );
+
+    const current =
+        document.getElementById(
+            "currentStatus"
+        );
+
+
+    switchElement.checked = state;
+
+
+    /*
+       Turn ALL street lights ON/OFF.
+    */
+
+    document
+        .querySelectorAll(".streetLight")
+        .forEach(
+            function(light){
+
+                if(state){
+
+                    light.classList.add(
+                        "lightOn"
+                    );
+
+                }
+                else{
+
+                    light.classList.remove(
+                        "lightOn"
+                    );
+
+                }
+
+            }
+        );
+
+
+    if(state){
+
+        status.textContent =
+            "LIGHTS ON";
+
+        status.classList.remove("off");
+
+        status.classList.add("on");
+
+        description.textContent =
+            "Premises street lights are illuminated";
+
+        current.textContent =
+            "ON";
+
+    }
+    else{
+
+        status.textContent =
+            "LIGHTS OFF";
+
+        status.classList.remove("on");
+
+        status.classList.add("off");
+
+        description.textContent =
+            "Street lights are currently switched off";
+
+        current.textContent =
+            "OFF";
+
+    }
+
+
+    updateLastTimes();
+
+}
+
+
+/* =========================================================
+   LAST ON / OFF
+========================================================= */
+
+function updateLastTimes(){
+
+    document.getElementById("lastOn")
+        .textContent =
+        formatTime(lastOnTime);
+
+    document.getElementById("lastOff")
+        .textContent =
+        formatTime(lastOffTime);
+
+}
+
+
+function formatTime(date){
+
+    if(!date){
+        return "--";
+    }
+
+    return date.toLocaleTimeString(
+        "en-IN",
+        {
+            hour:"2-digit",
+            minute:"2-digit",
+            second:"2-digit",
+            hour12:true
+        }
+    );
+
+}
+
+
+/* =========================================================
+   SEND RELAY COMMAND
+========================================================= */
+
+async function sendRelay(state){
 
     const value =
         state ? "ON" : "OFF";
 
 
-    try
-    {
-        const url =
-            "https://io.adafruit.com/api/v2/" +
-            AIO_USERNAME +
-            "/feeds/" +
-            RELAY_FEED +
-            "/data";
+    document.getElementById("loading")
+        .style.display = "flex";
 
+
+    try{
 
         const response =
             await fetch(
-                url,
+                AIO_BASE + "/data",
                 {
-                    method: "POST",
+                    method:"POST",
 
-                    headers:
-                        apiHeaders(),
+                    headers:{
+                        "X-AIO-Key":AIO_KEY,
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Accept":
+                            "application/json"
+                    },
 
                     body:
                         JSON.stringify({
-                            value: value
+                            value:value
                         })
                 }
             );
 
 
-        if (!response.ok)
-        {
+        if(!response.ok){
+
             throw new Error(
-                "Command rejected"
+                "HTTP " +
+                response.status
             );
+
         }
 
 
         setConnection(true);
 
 
-        document.getElementById(
-            "loading"
-        ).textContent =
-            "Command sent successfully";
+        /*
+           Update immediately.
+        */
+
+        applyRelayState(state);
 
 
-        document.getElementById(
-            "lastUpdate"
-        ).textContent =
-            new Date().toLocaleTimeString();
+        /*
+           Verify actual Adafruit IO state.
+        */
 
-
-        // Wait briefly for ESP32 to process command
         setTimeout(
-            getCurrentStatus,
-            1000
+            getRelayState,
+            600
         );
 
     }
-    catch(error)
-    {
-        console.error(error);
+    catch(error){
 
-        document.getElementById(
-            "loading"
-        ).textContent =
-            "Command failed";
+        console.error(
+            "Relay command failed:",
+            error
+        );
+
 
         setConnection(false);
 
-        // Read actual state again
-        getCurrentStatus();
+
+        /*
+           Restore previous known state.
+        */
+
+        document
+            .getElementById("relaySwitch")
+            .checked =
+            relayState;
+
+
+        alert(
+            "Unable to control the street lights.\n\n" +
+            "Please check your internet connection."
+        );
+
     }
-    finally
-    {
-        commandBusy = false;
+    finally{
+
+        document.getElementById("loading")
+            .style.display = "none";
+
     }
+
 }
 
 
-// =========================================================
-// TOGGLE
-// =========================================================
+/* =========================================================
+   SWITCH
+========================================================= */
 
-function toggleRelay()
-{
-    const checkbox =
-        document.getElementById(
-            "relaySwitch"
-        );
+function toggleRelay(){
 
-
-    const state =
-        checkbox.checked;
+    const desiredState =
+        document
+            .getElementById("relaySwitch")
+            .checked;
 
 
-    updateInterface(state);
+    sendRelay(
+        desiredState
+    );
 
-    sendCommand(state);
 }
 
 
-// =========================================================
-// UPDATE INTERFACE
-// =========================================================
+/* =========================================================
+   START
+========================================================= */
 
-function updateInterface(state)
-{
-    const checkbox =
-        document.getElementById(
-            "relaySwitch"
-        );
+function startDashboard(){
 
+    /*
+       First immediate check.
+    */
 
-    const scene =
-        document.getElementById(
-            "streetScene"
-        );
+    getRelayState();
 
 
-    const status =
-        document.getElementById(
-            "currentStatus"
-        );
+    /*
+       Keep dashboard synchronized.
+    */
 
+    setInterval(
+        getRelayState,
+        2000
+    );
 
-    const relayValue =
-        document.getElementById(
-            "relayValue"
-        );
-
-
-    checkbox.checked = state;
-
-
-    if (state)
-    {
-        scene.classList.add(
-            "light-on"
-        );
-
-        status.classList.add(
-            "on"
-        );
-
-        status.textContent =
-            "ON";
-
-        relayValue.textContent =
-            "ACTIVE";
-    }
-    else
-    {
-        scene.classList.remove(
-            "light-on"
-        );
-
-        status.classList.remove(
-            "on"
-        );
-
-        status.textContent =
-            "OFF";
-
-        relayValue.textContent =
-            "OFF";
-    }
 }
 
 
-// =========================================================
-// CONNECTION INDICATOR
-// =========================================================
+/* =========================================================
+   RANDOM STAR ANIMATION
+========================================================= */
 
-function setConnection(connected)
-{
-    const dot =
-        document.getElementById(
-            "connectionDot"
-        );
+document
+    .querySelectorAll(".star")
+    .forEach(
+        function(star,index){
 
+            star.style.animationDelay =
+                (index * .37) + "s";
 
-    const text =
-        document.getElementById(
-            "connectionText"
-        );
-
-
-    if (connected)
-    {
-        dot.classList.add(
-            "connected"
-        );
-
-        text.textContent =
-            "Adafruit IO Connected";
-    }
-    else
-    {
-        dot.classList.remove(
-            "connected"
-        );
-
-        text.textContent =
-            "Connection Error";
-    }
-}
-
-
-// =========================================================
-// STARS
-// =========================================================
-
-function createStars()
-{
-    const container =
-        document.getElementById(
-            "stars"
-        );
-
-
-    for (
-        let i = 0;
-        i < 80;
-        i++
-    )
-    {
-        const star =
-            document.createElement(
-                "div"
-            );
-
-
-        star.className =
-            "star";
-
-
-        star.style.left =
-            Math.random() * 100 +
-            "%";
-
-
-        star.style.top =
-            Math.random() * 75 +
-            "%";
-
-
-        star.style.animationDelay =
-            Math.random() * 3 +
-            "s";
-
-
-        container.appendChild(
-            star
-        );
-    }
-}
+        }
+    );
 
 </script>
 
 </body>
-
 </html>
