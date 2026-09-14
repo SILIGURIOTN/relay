@@ -2,2834 +2,311 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-
-<meta name="theme-color" content="#02070d">
-
-<title>Greenfield Smart Street Light</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Greenfield Street Light</title>
 <style>
-
-/* =========================================================
-   RESET
-========================================================= */
-
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-    -webkit-tap-highlight-color:transparent;
-}
-
-html,
-body{
-    width:100%;
-    min-height:100%;
-    background:#02060b;
-    color:#fff;
-    font-family:
-        Inter,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Roboto,
-        Arial,
-        sans-serif;
-}
-
-body{
-    overflow-x:hidden;
-}
-
-
-/* =========================================================
-   LOGIN
-========================================================= */
-
-#loginScreen{
-    position:fixed;
-    inset:0;
-    z-index:99999;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    padding:22px;
-
-    background:
-        radial-gradient(
-            circle at 50% 30%,
-            rgba(255,170,55,.15),
-            transparent 28%
-        ),
-        linear-gradient(
-            180deg,
-            #01050a 0%,
-            #06121d 55%,
-            #02070c 100%
-        );
-}
-
-.loginBox{
-    width:min(390px,100%);
-
-    padding:34px 25px;
-
-    border-radius:30px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(17,31,46,.9),
-            rgba(4,12,20,.88)
-        );
-
-    border:1px solid rgba(255,255,255,.1);
-
-    box-shadow:
-        0 35px 90px rgba(0,0,0,.7),
-        inset 0 1px rgba(255,255,255,.08);
-
-    backdrop-filter:blur(25px);
-
-    text-align:center;
-}
-
-.loginLamp{
-    position:relative;
-
-    width:82px;
-    height:82px;
-
-    margin:auto;
-
-    border-radius:50%;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-size:38px;
-
-    background:
-        radial-gradient(
-            circle,
-            #fffbd1 0%,
-            #ffe47d 17%,
-            #ffae35 38%,
-            rgba(255,160,30,.08) 72%
-        );
-
-    box-shadow:
-        0 0 25px rgba(255,205,80,.8),
-        0 0 75px rgba(255,160,30,.35);
-
-    animation:
-        loginGlow 2.8s ease-in-out infinite alternate;
-}
-
-@keyframes loginGlow{
-
-    from{
-        transform:scale(.96);
-        filter:brightness(.9);
-    }
-
-    to{
-        transform:scale(1.04);
-        filter:brightness(1.2);
-    }
-}
-
-.loginTitle{
-    margin-top:22px;
-
-    font-size:25px;
-    font-weight:900;
-
-    letter-spacing:1px;
-}
-
-.loginSub{
-    margin-top:7px;
-
-    color:#8093a7;
-
-    font-size:12px;
-}
-
-.password{
-    width:100%;
-
-    margin-top:25px;
-
-    padding:15px 16px;
-
-    border-radius:16px;
-
-    outline:none;
-
-    color:white;
-
-    background:#07131f;
-
-    border:1px solid rgba(255,255,255,.09);
-
-    font-size:16px;
-}
-
-.password:focus{
-    border-color:rgba(255,194,73,.6);
-
-    box-shadow:
-        0 0 0 3px rgba(255,194,73,.08);
-}
-
-.loginButton{
-    width:100%;
-
-    margin-top:12px;
-
-    padding:15px;
-
-    border:0;
-    border-radius:16px;
-
-    color:#10151a;
-
-    font-size:13px;
-    font-weight:900;
-
-    letter-spacing:.5px;
-
-    cursor:pointer;
-
-    background:
-        linear-gradient(
-            135deg,
-            #ffe68a,
-            #ffb63c,
-            #ff9525
-        );
-
-    box-shadow:
-        0 10px 30px rgba(255,166,40,.2);
-}
-
-.loginButton:active{
-    transform:scale(.98);
-}
-
-.loginError{
-    display:none;
-
-    margin-top:12px;
-
-    color:#ff7373;
-
-    font-size:12px;
-}
-
-
-/* =========================================================
-   APP
-========================================================= */
-
-#app{
-    display:none;
-
-    width:100%;
-    min-height:100vh;
-
-    background:
-        radial-gradient(
-            circle at 50% -10%,
-            rgba(29,71,105,.4),
-            transparent 40%
-        ),
-        #02070d;
-}
-
-.appShell{
-    width:100%;
-    max-width:560px;
-
-    margin:auto;
-
-    min-height:100vh;
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(4,13,22,.97),
-            rgba(2,8,13,.98)
-        );
-
-    box-shadow:
-        0 0 100px rgba(0,0,0,.65);
-}
-
-
-/* =========================================================
-   HEADER
-========================================================= */
-
-.header{
-    position:relative;
-    z-index:100;
-
-    height:67px;
-
-    padding:
-        11px
-        15px;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:space-between;
-
-    border-bottom:
-        1px solid rgba(255,255,255,.06);
-
-    background:
-        rgba(3,10,17,.76);
-
-    backdrop-filter:blur(22px);
-}
-
-.brand{
-    display:flex;
-    align-items:center;
-    gap:11px;
-}
-
-.brandLogo{
-    width:40px;
-    height:40px;
-
-    border-radius:13px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-size:20px;
-
-    background:
-        linear-gradient(
-            145deg,
-            #16344c,
-            #07111c
-        );
-
-    border:
-        1px solid rgba(255,255,255,.1);
-
-    box-shadow:
-        inset 0 1px rgba(255,255,255,.08);
-}
-
-.brandName{
-    font-size:14px;
-    font-weight:900;
-    letter-spacing:.4px;
-}
-
-.brandSub{
-    margin-top:3px;
-
-    font-size:9px;
-
-    color:#72869b;
-
-    letter-spacing:1px;
-}
-
-.connection{
-    display:flex;
-    align-items:center;
-    gap:7px;
-
-    padding:7px 10px;
-
-    border-radius:30px;
-
-    font-size:9px;
-    font-weight:900;
-
-    background:
-        rgba(255,255,255,.045);
-
-    border:
-        1px solid rgba(255,255,255,.07);
-}
-
-.connectionDot{
-    width:8px;
-    height:8px;
-
-    border-radius:50%;
-
-    background:#ff4759;
-}
-
-.connection.live .connectionDot{
-    background:#43f38b;
-
-    box-shadow:
-        0 0 13px #43f38b;
-}
-
-.connection.live{
-    color:#8effbd;
-}
-
-.connection.offline{
-    color:#ff7d89;
-}
-
-
-/* =========================================================
-   CLOCK
-========================================================= */
-
-.clockBar{
-    position:relative;
-    z-index:80;
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    padding:
-        14px
-        17px
-        12px;
-}
-
-.time{
-    font-size:25px;
-
-    line-height:1;
-
-    font-weight:900;
-
-    letter-spacing:.5px;
-}
-
-.date{
-    margin-top:5px;
-
-    font-size:10px;
-
-    color:#71869a;
-}
-
-.networkText{
-    text-align:right;
-}
-
-.networkLabel{
-    color:#52677b;
-
-    font-size:8px;
-
-    text-transform:uppercase;
-
-    letter-spacing:1.2px;
-}
-
-.networkValue{
-    margin-top:4px;
-
-    font-size:11px;
-
-    font-weight:800;
-}
-
-
-/* =========================================================
-   PREMIUM NIGHT SCENE
-========================================================= */
-
-.scene{
-    position:relative;
-
-    height:505px;
-
-    margin:
-        0
-        10px;
-
-    overflow:hidden;
-
-    border-radius:30px;
-
-    border:
-        1px solid rgba(255,255,255,.08);
-
-    background:
-
-        radial-gradient(
-            circle at 50% 40%,
-            rgba(30,75,91,.20),
-            transparent 35%
-        ),
-
-        linear-gradient(
-            180deg,
-            #020814 0%,
-            #071525 45%,
-            #0b202b 73%,
-            #071016 100%
-        );
-
-    box-shadow:
-        0 25px 65px rgba(0,0,0,.55),
-        inset 0 1px rgba(255,255,255,.06);
-}
-
-
-/* =========================================================
-   MOON
-========================================================= */
-
-.moon{
-    position:absolute;
-
-    right:43px;
-    top:36px;
-
-    width:64px;
-    height:64px;
-
-    border-radius:50%;
-
-    background:
-        radial-gradient(
-            circle at 35% 32%,
-            #fffde5,
-            #ffe9ad 55%,
-            #e7c77b
-        );
-
-    box-shadow:
-        0 0 20px rgba(255,245,194,.65),
-        0 0 65px rgba(255,235,160,.18);
-}
-
-.moon:after{
-    content:"";
-
-    position:absolute;
-
-    width:62px;
-    height:62px;
-
-    left:18px;
-    top:-7px;
-
-    border-radius:50%;
-
-    background:#04101b;
-}
-
-
-/* =========================================================
-   STARS
-========================================================= */
-
-.star{
-    position:absolute;
-
-    width:2px;
-    height:2px;
-
-    border-radius:50%;
-
-    background:#fff;
-
-    opacity:.55;
-
-    animation:
-        starBlink
-        3s
-        ease-in-out
-        infinite
-        alternate;
-}
-
-@keyframes starBlink{
-
-    from{
-        opacity:.15;
-        transform:scale(.7);
-    }
-
-    to{
-        opacity:.9;
-        transform:scale(1.4);
-    }
-}
-
-
-/* =========================================================
-   FIRE FLIES
-========================================================= */
-
-.firefly{
-    position:absolute;
-
-    width:4px;
-    height:4px;
-
-    border-radius:50%;
-
-    background:#ffd978;
-
-    box-shadow:
-        0 0 9px #ffd978,
-        0 0 18px rgba(255,214,105,.5);
-
-    animation:
-        fly
-        var(--speed)
-        ease-in-out
-        infinite
-        alternate;
-}
-
-@keyframes fly{
-
-    0%{
-        transform:
-            translate(
-                0,
-                0
-            );
-
-        opacity:.15;
-    }
-
-    50%{
-        opacity:1;
-    }
-
-    100%{
-        transform:
-            translate(
-                var(--x),
-                var(--y)
-            );
-
-        opacity:.25;
-    }
-}
-
-
-/* =========================================================
-   GROUND
-========================================================= */
-
-.ground{
-    position:absolute;
-
-    left:0;
-    right:0;
-    bottom:0;
-
-    height:150px;
-
-    background:
-        linear-gradient(
-            180deg,
-            #10221f 0%,
-            #071512 45%,
-            #020806 100%
-        );
-}
-
-
-/* =========================================================
-   ROAD
-========================================================= */
-
-.road{
-    position:absolute;
-
-    left:50%;
-    bottom:-15px;
-
-    width:68%;
-    height:150px;
-
-    transform:translateX(-50%);
-
-    background:
-        linear-gradient(
-            90deg,
-            #11191d,
-            #1a2327,
-            #11191d
-        );
-
-    clip-path:
-        polygon(
-            20% 0,
-            80% 0,
-            100% 100%,
-            0 100%
-        );
-
-    box-shadow:
-        0 -10px 25px rgba(0,0,0,.2);
-}
-
-.roadLine{
-    position:absolute;
-
-    left:50%;
-    top:0;
-
-    width:3px;
-    height:100%;
-
-    transform:translateX(-50%);
-
-    background:
-        repeating-linear-gradient(
-            to bottom,
-            rgba(238,224,155,.75) 0 17px,
-            transparent 17px 31px
-        );
-}
-
-
-/* =========================================================
-   GRASS
-========================================================= */
-
-.grass{
-    position:absolute;
-
-    bottom:72px;
-
-    width:100%;
-    height:50px;
-
-    background:
-        radial-gradient(
-            ellipse at 20% 100%,
-            #123426,
-            transparent 65%
-        ),
-        radial-gradient(
-            ellipse at 75% 100%,
-            #153b2b,
-            transparent 65%
-        );
-}
-
-
-/* =========================================================
-   KRISHNACHURA TREE SYSTEM
-========================================================= */
-
-.tree{
-    position:absolute;
-
-    width:190px;
-    height:340px;
-
-    bottom:72px;
-
-    transform-origin:
-        50%
-        100%;
-
-    z-index:20;
-
-    animation:
-        treeWind
-        var(--wind)
-        ease-in-out
-        infinite
-        alternate;
-}
-
-@keyframes treeWind{
-
-    0%{
-        transform:
-            rotate(
-                calc(var(--lean) * -1)
-            );
-    }
-
-    50%{
-        transform:
-            rotate(0deg);
-    }
-
-    100%{
-        transform:
-            rotate(var(--lean));
-    }
-}
-
-
-/* trunks */
-
-.trunkMain{
-    position:absolute;
-
-    bottom:0;
-    left:91px;
-
-    width:15px;
-    height:225px;
-
-    border-radius:10px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #251811,
-            #5a3825 35%,
-            #7b5135 55%,
-            #2a1b13
-        );
-
-    transform:
-        rotate(-2deg);
-
-    box-shadow:
-        8px 0 15px rgba(0,0,0,.25);
-}
-
-.branch{
-    position:absolute;
-
-    height:8px;
-
-    border-radius:10px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #2c1a12,
-            #68422b,
-            #3b2418
-        );
-
-    transform-origin:left center;
-}
-
-.branch1{
-    left:94px;
-    top:142px;
-    width:92px;
-    transform:rotate(-28deg);
-}
-
-.branch2{
-    left:94px;
-    top:108px;
-    width:105px;
-    transform:rotate(24deg);
-}
-
-.branch3{
-    left:97px;
-    top:78px;
-    width:83px;
-    transform:rotate(-18deg);
-}
-
-.branch4{
-    left:96px;
-    top:53px;
-    width:72px;
-    transform:rotate(20deg);
-}
-
-
-/* canopy */
-
-.canopy{
-    position:absolute;
-
-    border-radius:50%;
-
-    background:
-        radial-gradient(
-            circle at 35% 28%,
-            #356746 0%,
-            #1e4b34 42%,
-            #0d2c20 78%,
-            #071a13 100%
-        );
-
-    box-shadow:
-        inset -12px -16px 25px rgba(0,0,0,.25),
-        0 15px 30px rgba(0,0,0,.3);
-
-    animation:
-        canopyMove
-        var(--leafspeed)
-        ease-in-out
-        infinite
-        alternate;
-}
-
-@keyframes canopyMove{
-
-    from{
-        transform:translateX(-2px);
-    }
-
-    to{
-        transform:translateX(3px);
-    }
-}
-
-.c1{
-    width:125px;
-    height:105px;
-    left:20px;
-    top:15px;
-}
-
-.c2{
-    width:130px;
-    height:115px;
-    left:63px;
-    top:23px;
-}
-
-.c3{
-    width:110px;
-    height:105px;
-    left:15px;
-    top:72px;
-}
-
-.c4{
-    width:125px;
-    height:110px;
-    left:66px;
-    top:83px;
-}
-
-.c5{
-    width:105px;
-    height:95px;
-    left:42px;
-    top:125px;
-}
-
-
-/* =========================================================
-   FLOWERS
-========================================================= */
-
-.flower{
-    position:absolute;
-
-    width:16px;
-    height:16px;
-
-    z-index:8;
-
-    animation:
-        flowerWind
-        var(--flower-speed)
-        ease-in-out
-        infinite
-        alternate;
-}
-
-@keyframes flowerWind{
-
-    from{
-        transform:
-            rotate(-3deg)
-            translateX(-1px);
-    }
-
-    to{
-        transform:
-            rotate(5deg)
-            translateX(3px);
-    }
-}
-
-.petal{
-    position:absolute;
-
-    width:8px;
-    height:8px;
-
-    border-radius:
-        70%
-        30%
-        70%
-        30%;
-
-    background:
-        linear-gradient(
-            135deg,
-            #ff6b38,
-            #d92824
-        );
-
-    box-shadow:
-        0 0 5px rgba(255,68,39,.25);
-}
-
-.petal:nth-child(1){
-    left:4px;
-    top:0;
-}
-
-.petal:nth-child(2){
-    left:8px;
-    top:4px;
-    transform:rotate(72deg);
-}
-
-.petal:nth-child(3){
-    left:5px;
-    top:8px;
-    transform:rotate(145deg);
-}
-
-.petal:nth-child(4){
-    left:0;
-    top:5px;
-    transform:rotate(215deg);
-}
-
-.flowerCenter{
-    position:absolute;
-
-    width:4px;
-    height:4px;
-
-    left:6px;
-    top:6px;
-
-    border-radius:50%;
-
-    background:#ffce55;
-}
-
-
-/* =========================================================
-   INDIVIDUAL TREES
-========================================================= */
-
-.treeA{
-    left:-52px;
-
-    --wind:5s;
-    --lean:2.5deg;
-    --leafspeed:4.2s;
-    --flower-speed:3.1s;
-}
-
-.treeB{
-    right:-62px;
-
-    transform:scale(.95);
-
-    --wind:6.5s;
-    --lean:2deg;
-    --leafspeed:5s;
-    --flower-speed:4s;
-}
-
-.treeC{
-    left:76px;
-    bottom:80px;
-
-    transform:scale(.62);
-
-    opacity:.8;
-
-    --wind:7s;
-    --lean:1.8deg;
-    --leafspeed:4.7s;
-    --flower-speed:3.8s;
-}
-
-.treeD{
-    right:73px;
-    bottom:78px;
-
-    transform:scale(.58);
-
-    opacity:.75;
-
-    --wind:5.8s;
-    --lean:2.3deg;
-    --leafspeed:5.4s;
-    --flower-speed:3.6s;
-}
-
-
-/* =========================================================
-   STREET LIGHTS
-========================================================= */
-
-.streetLight{
-    position:absolute;
-
-    bottom:67px;
-
-    width:70px;
-    height:190px;
-
-    z-index:35;
-}
-
-.pole{
-    position:absolute;
-
-    bottom:0;
-    left:34px;
-
-    width:4px;
-    height:170px;
-
-    border-radius:5px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #28343c,
-            #9ba8ae,
-            #354149
-        );
-
-    box-shadow:
-        4px 0 10px rgba(0,0,0,.35);
-}
-
-.arm{
-    position:absolute;
-
-    left:34px;
-    top:15px;
-
-    width:42px;
-    height:4px;
-
-    border-radius:4px;
-
-    background:#64747c;
-
-    transform:
-        rotate(-6deg);
-}
-
-.lamp{
-    position:absolute;
-
-    left:71px;
-    top:10px;
-
-    width:15px;
-    height:9px;
-
-    border-radius:
-        8px
-        8px
-        5px
-        5px;
-
-    background:#64747d;
-
-    transition:.5s;
-}
-
-.lightBeam{
-    position:absolute;
-
-    left:55px;
-    top:18px;
-
-    width:65px;
-    height:125px;
-
-    opacity:0;
-
-    background:
-        linear-gradient(
-            to bottom,
-            rgba(255,222,125,.38),
-            rgba(255,199,72,.11),
-            transparent
-        );
-
-    clip-path:
-        polygon(
-            36% 0,
-            64% 0,
-            100% 100%,
-            0 100%
-        );
-
-    transition:
-        opacity .5s;
-}
-
-.lightOn .lamp{
-    background:#fff0ae;
-
-    box-shadow:
-        0 0 8px #fff5be,
-        0 0 18px #ffd66b,
-        0 0 32px rgba(255,188,58,.7);
-}
-
-.lightOn .lightBeam{
-    opacity:1;
-}
-
-.sl1{
-    left:17px;
-}
-
-.sl2{
-    right:17px;
-}
-
-.sl3{
-    left:50%;
-    transform:translateX(-50%) scale(.72);
-
-    bottom:65px;
-
-    opacity:.78;
-}
-
-
-/* =========================================================
-   CONTROL PANEL
-========================================================= */
-
-.control{
-    position:relative;
-
-    z-index:100;
-
-    margin:
-        -31px
-        18px
-        0;
-
-    padding:20px;
-
-    border-radius:25px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(15,30,43,.94),
-            rgba(4,12,20,.95)
-        );
-
-    border:
-        1px solid rgba(255,255,255,.1);
-
-    box-shadow:
-        0 25px 60px rgba(0,0,0,.58),
-        inset 0 1px rgba(255,255,255,.07);
-
-    backdrop-filter:blur(24px);
-}
-
-.controlHeader{
-    display:flex;
-
-    align-items:center;
-    justify-content:space-between;
-}
-
-.controlTitle{
-    font-size:15px;
-    font-weight:900;
-}
-
-.controlSubtitle{
-    margin-top:4px;
-
-    color:#71859a;
-
-    font-size:10px;
-}
-
-.relaySwitch{
-    position:relative;
-
-    width:76px;
-    height:42px;
-}
-
-.relaySwitch input{
-    display:none;
-}
-
-.slider{
-    position:absolute;
-    inset:0;
-
-    border-radius:30px;
-
-    background:#152331;
-
-    border:
-        1px solid rgba(255,255,255,.1);
-
-    cursor:pointer;
-
-    transition:.35s;
-}
-
-.slider:before{
-    content:"";
-
-    position:absolute;
-
-    left:5px;
-    top:5px;
-
-    width:30px;
-    height:30px;
-
-    border-radius:50%;
-
-    background:#71808b;
-
-    box-shadow:
-        0 4px 10px rgba(0,0,0,.55);
-
-    transition:.35s;
-}
-
-.relaySwitch input:checked + .slider{
-    background:
-        linear-gradient(
-            135deg,
-            #ffd95e,
-            #ff9d25
-        );
-
-    box-shadow:
-        0 0 25px rgba(255,176,48,.28);
-}
-
-.relaySwitch input:checked + .slider:before{
-    transform:translateX(34px);
-
-    background:white;
-
-    box-shadow:
-        0 0 12px rgba(255,255,255,.8);
-}
-
-.statusRow{
-    display:flex;
-
-    align-items:end;
-    justify-content:space-between;
-
-    margin-top:18px;
-}
-
-.bigStatus{
-    font-size:27px;
-
-    line-height:1;
-
-    font-weight:950;
-}
-
-.bigStatus.on{
-    color:#ffda67;
-
-    text-shadow:
-        0 0 25px rgba(255,193,57,.35);
-}
-
-.bigStatus.off{
-    color:#718395;
-}
-
-.statusDescription{
-    margin-top:7px;
-
-    color:#667c91;
-
-    font-size:10px;
-}
-
-
-/* =========================================================
-   INFO CARDS
-========================================================= */
-
-.infoGrid{
-    position:relative;
-    z-index:100;
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(2,1fr);
-
-    gap:10px;
-
-    padding:
-        14px
-        18px
-        22px;
-}
-
-.infoCard{
-    min-height:88px;
-
-    padding:14px;
-
-    border-radius:18px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(13,27,41,.85),
-            rgba(5,14,23,.9)
-        );
-
-    border:
-        1px solid rgba(255,255,255,.065);
-
-    box-shadow:
-        inset 0 1px rgba(255,255,255,.04);
-}
-
-.infoIcon{
-    font-size:17px;
-}
-
-.infoLabel{
-    margin-top:10px;
-
-    color:#61758a;
-
-    font-size:8px;
-
-    text-transform:uppercase;
-
-    letter-spacing:1px;
-}
-
-.infoValue{
-    margin-top:5px;
-
-    font-size:12px;
-
-    font-weight:900;
-}
-
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
-.footer{
-    padding:
-        2px
-        20px
-        28px;
-
-    text-align:center;
-
-    color:#354858;
-
-    font-size:8px;
-
-    letter-spacing:1px;
-}
-
-
-/* =========================================================
-   LOADING
-========================================================= */
-
-.loading{
-    position:fixed;
-
-    inset:0;
-
-    z-index:999999;
-
-    display:none;
-
-    align-items:center;
-    justify-content:center;
-
-    background:
-        rgba(0,0,0,.3);
-
-    backdrop-filter:blur(3px);
-}
-
-.spinner{
-    width:38px;
-    height:38px;
-
-    border:
-        3px solid rgba(255,255,255,.15);
-
-    border-top-color:#ffd15d;
-
-    border-radius:50%;
-
-    animation:
-        spin
-        .75s
-        linear
-        infinite;
-}
-
-@keyframes spin{
-
-    to{
-        transform:rotate(360deg);
-    }
-}
-
-
-/* =========================================================
-   SMALL MOBILE
-========================================================= */
-
-@media(max-width:380px){
-
-    .scene{
-        height:470px;
-    }
-
-    .treeA{
-        left:-82px;
-        transform:scale(.88);
-    }
-
-    .treeB{
-        right:-90px;
-        transform:scale(.82);
-    }
-
-    .time{
-        font-size:22px;
-    }
-
-    .bigStatus{
-        font-size:23px;
-    }
-
-    .control{
-        margin-left:14px;
-        margin-right:14px;
-    }
-
-    .infoGrid{
-        padding-left:14px;
-        padding-right:14px;
-    }
-}
-
-
-/* =========================================================
-   DESKTOP CENTER
-========================================================= */
-
-@media(min-width:700px){
-
-    body{
-        background:#010409;
-    }
-
-    .appShell{
-        box-shadow:
-            0 0 120px rgba(0,0,0,.8);
-    }
-}
-
+:root{--g:#55f2ad;--r:#ff6575;--y:#ffd86a;--t:#effff8;--m:#91b6a8}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;min-height:100%;background:#020806;color:var(--t);font-family:Inter,system-ui,sans-serif}body{overflow-x:hidden}.app{position:relative;min-height:100vh;overflow:hidden;background:radial-gradient(circle at 50% 25%,rgba(39,153,105,.16),transparent 38%),linear-gradient(180deg,#061712,#03100b 48%,#020705)}
+.sky{position:absolute;inset:0;overflow:hidden;pointer-events:none}.moon{position:absolute;top:7%;right:12%;width:58px;height:58px;border-radius:50%;background:#effff7;box-shadow:0 0 25px rgba(235,255,247,.35),0 0 80px rgba(170,255,220,.12)}.moon:after{content:"";position:absolute;left:15px;top:-4px;width:58px;height:58px;border-radius:50%;background:#061712}.cloud{position:absolute;width:190px;height:30px;border-radius:50px;background:rgba(151,190,177,.055);filter:blur(2px);animation:cloud 45s linear infinite}.cloud:before,.cloud:after{content:"";position:absolute;background:inherit;border-radius:50%}.cloud:before{width:70px;height:70px;left:35px;top:-30px}.cloud:after{width:90px;height:75px;left:90px;top:-42px}.cloud1{top:18%;left:-230px}.cloud2{top:31%;left:-300px;transform:scale(.72);animation-duration:58s;animation-delay:9s}@keyframes cloud{from{left:-250px}to{left:115%}}
+.scene{position:relative;height:620px;overflow:hidden}.forest{position:absolute;left:-5%;right:-5%;bottom:34%;height:180px;opacity:.65}.forest span{position:absolute;bottom:0;width:95px;height:125px;border-radius:50% 50% 35% 35%;background:radial-gradient(circle at 50% 30%,#246c4b,#0b2d20 70%)}.forest span:nth-child(1){left:0}.forest span:nth-child(2){left:9%;transform:scale(1.1)}.forest span:nth-child(3){left:20%;transform:scale(.7)}.forest span:nth-child(4){left:32%}.forest span:nth-child(5){left:45%;transform:scale(.75)}.forest span:nth-child(6){left:57%;transform:scale(1.05)}.forest span:nth-child(7){left:70%;transform:scale(.72)}.forest span:nth-child(8){left:82%;transform:scale(1.1)}.forest span:nth-child(9){right:-4%}
+.ground{position:absolute;left:-10%;right:-10%;bottom:-14%;height:55%;background:radial-gradient(ellipse at center,#103a27,#071b13 55%,#020806);transform:perspective(500px) rotateX(27deg);transform-origin:bottom}.road{position:absolute;left:15%;right:15%;bottom:-3%;height:49%;background:linear-gradient(170deg,#15201d,#070c0a 65%);clip-path:polygon(40% 0,60% 0,100% 100%,0 100%)}.roadline{position:absolute;left:49.3%;bottom:0;width:1.5%;height:44%;background:repeating-linear-gradient(to bottom,rgba(229,255,242,.55) 0 18px,transparent 18px 35px);clip-path:polygon(40% 0,60% 0,100% 100%,0 100%);opacity:.4}
+.tree{position:absolute;bottom:29%;width:105px;height:210px;transform-origin:bottom center;animation:wind 4s ease-in-out infinite;z-index:5}.tree.right{animation-delay:-1.7s}.trunk{position:absolute;bottom:0;left:47px;width:9px;height:110px;border-radius:10px;background:linear-gradient(90deg,#19140d,#39271a,#17110c)}.branch{position:absolute;width:55px;height:8px;background:#2b1d13;border-radius:10px;transform-origin:left center}.b1{left:45px;bottom:70px;transform:rotate(-28deg)}.b2{left:47px;bottom:88px;transform:rotate(28deg)}.leaves{position:absolute;border-radius:50%;background:radial-gradient(circle at 35% 25%,#49a967,#1d683e 48%,#092c1e 78%);box-shadow:inset -7px -8px 15px rgba(0,0,0,.2),0 0 25px rgba(42,170,102,.08)}.leaves.a{width:80px;height:80px;left:8px;bottom:78px}.leaves.b{width:65px;height:65px;left:-5px;bottom:105px}.leaves.c{width:68px;height:68px;left:45px;bottom:103px}.leaves.d{width:55px;height:55px;left:29px;bottom:135px}@keyframes wind{0%,100%{transform:rotate(-1deg)}50%{transform:rotate(2deg)}}.tree1{left:-5px;transform:scale(.9)}.tree2{right:-8px;transform:scale(1.05)}.tree3{left:12%;bottom:32%;transform:scale(.55);opacity:.9}.tree4{right:12%;bottom:32%;transform:scale(.6);opacity:.9}
+.flower{position:absolute;bottom:27%;width:30px;height:55px;z-index:8;transform-origin:bottom center;animation:flower 2.8s ease-in-out infinite}.stem{position:absolute;left:14px;bottom:0;width:3px;height:40px;background:#3f9258}.petal{position:absolute;width:11px;height:15px;border-radius:50%;background:#ff8db2;box-shadow:0 0 8px rgba(255,116,165,.25)}.p1{left:8px;top:2px}.p2{left:18px;top:5px}.p3{left:3px;top:12px}.p4{left:13px;top:15px}.center{position:absolute;left:11px;top:9px;width:9px;height:9px;border-radius:50%;background:#ffd76a;z-index:2}.yellow .petal{background:#ffd95d}.white .petal{background:#eafff4}.purple .petal{background:#c9a1ff}@keyframes flower{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(6deg)}}.f1{left:5%}.f2{left:17%;bottom:29%}.f3{left:31%;bottom:26%}.f4{right:30%;bottom:27%}.f5{right:18%;bottom:29%}.f6{right:5%;bottom:26%}
+.grass{position:absolute;bottom:25%;width:100px;height:60px;z-index:7;animation:grass 2.5s ease-in-out infinite}.grass span{position:absolute;bottom:0;width:3px;height:35px;border-radius:4px;background:#2e7549;transform-origin:bottom}.grass span:nth-child(1){left:10px;transform:rotate(-18deg)}.grass span:nth-child(2){left:25px;transform:rotate(-8deg)}.grass span:nth-child(3){left:40px;transform:rotate(8deg)}.grass span:nth-child(4){left:55px;transform:rotate(18deg)}.grass span:nth-child(5){left:70px;transform:rotate(7deg)}@keyframes grass{0%,100%{transform:skewX(-2deg)}50%{transform:skewX(5deg)}}.g1{left:2%}.g2{right:2%;bottom:26%}.g3{left:25%}.g4{right:25%}
+.lamp{position:absolute;bottom:30%;width:5px;height:175px;background:linear-gradient(90deg,#111d18,#31443a,#101814);border-radius:5px;z-index:12}.lamp:before{content:"";position:absolute;top:-5px;left:-2px;width:10px;height:5px;border-radius:10px;background:#344940;transform:rotate(-10deg)}.lamp:after{content:"";position:absolute;top:-2px;left:1px;width:15px;height:15px;border-radius:50%;background:#3b4a43;transition:.5s}.lamp.on:after{background:#fff0a4;box-shadow:0 0 14px 5px rgba(255,220,110,.65),0 0 45px 18px rgba(255,190,65,.18)}.l1{left:21%;transform:scale(.72)}.l2{left:33%;transform:scale(.9)}.l3{right:33%;transform:scale(.9)}.l4{right:21%;transform:scale(.72)}.lightpool{position:absolute;bottom:23%;width:130px;height:55px;border-radius:50%;background:radial-gradient(ellipse,rgba(255,222,120,.23),transparent 70%);filter:blur(4px);opacity:0;transition:.6s;z-index:4}.lightpool.on{opacity:1}.lp1{left:14%}.lp2{left:24%}.lp3{right:24%}.lp4{right:14%}.firefly{position:absolute;width:4px;height:4px;border-radius:50%;background:#baffd5;box-shadow:0 0 12px #8affbf;animation:fly 5s ease-in-out infinite;z-index:15}@keyframes fly{0%,100%{opacity:.2;transform:translate(0,0)}50%{opacity:1;transform:translate(20px,-18px)}}
+.connection{position:absolute;top:20px;left:50%;transform:translateX(-50%);z-index:30;display:flex;align-items:center;gap:8px;padding:9px 15px;border-radius:30px;background:rgba(4,18,13,.72);border:1px solid rgba(100,255,190,.22);backdrop-filter:blur(14px);font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;box-shadow:0 10px 30px rgba(0,0,0,.3)}.dot{width:8px;height:8px;border-radius:50%;background:var(--g);box-shadow:0 0 13px var(--g);animation:pulse 1.5s infinite}.connection.offline{border-color:rgba(255,100,115,.3)}.connection.offline .dot{background:var(--r);box-shadow:0 0 12px var(--r)}.connection.checking{border-color:rgba(255,216,106,.35)}.connection.checking .dot{background:var(--y);box-shadow:0 0 12px var(--y)}@keyframes pulse{50%{opacity:.35;transform:scale(.7)}}
+.panel{position:relative;margin:0 14px 25px;padding:16px;border-radius:25px;background:linear-gradient(145deg,rgba(12,34,26,.88),rgba(3,12,8,.91));border:1px solid rgba(126,255,202,.15);backdrop-filter:blur(20px);box-shadow:0 20px 60px rgba(0,0,0,.45);z-index:40}.toprow{display:flex;align-items:center;justify-content:space-between}.title{font-size:14px;font-weight:800}.sub{margin-top:4px;font-size:9px;color:var(--m);letter-spacing:.1em}.toggle{width:65px;height:35px;padding:4px;border-radius:22px;border:1px solid rgba(255,255,255,.12);background:#17241e;cursor:pointer}.toggle:disabled{opacity:.55;cursor:wait}.knob{width:25px;height:25px;border-radius:50%;background:#84938c;transition:.3s;box-shadow:0 3px 12px #000}.toggle.active{background:rgba(50,205,140,.2);border-color:rgba(80,240,176,.5)}.toggle.active .knob{transform:translateX(30px);background:#59f2b2;box-shadow:0 0 20px rgba(80,240,176,.65)}.metrics{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:14px}.metric{padding:11px;border-radius:15px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.055)}.metric b{display:block;font-size:15px}.metric span{display:block;margin-top:3px;color:var(--m);font-size:8px;letter-spacing:.1em;text-transform:uppercase}.full{grid-column:1/-1}.status{margin-top:10px;padding:12px;border-radius:15px;background:rgba(80,240,176,.04);border:1px solid rgba(80,240,176,.1);font-size:10px;color:#b8d8ca}.status strong{color:var(--g)}.status.offline{background:rgba(255,101,117,.045);border-color:rgba(255,101,117,.12)}.status.offline strong{color:var(--r)}.status.checking{background:rgba(255,216,106,.045);border-color:rgba(255,216,106,.12)}@media(min-width:700px){.app{max-width:520px;margin:auto;box-shadow:0 0 100px rgba(0,0,0,.7)}.scene{height:660px}}
+
+.login-screen{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(circle at 50% 35%,rgba(50,220,150,.14),transparent 42%),linear-gradient(180deg,#061712,#020806)}
+.login-card{width:min(390px,100%);padding:30px 24px;border-radius:28px;background:linear-gradient(145deg,rgba(12,38,29,.94),rgba(3,13,9,.97));border:1px solid rgba(126,255,202,.2);box-shadow:0 25px 90px rgba(0,0,0,.65);backdrop-filter:blur(24px);text-align:center}
+.login-logo{width:66px;height:66px;margin:0 auto 16px;border-radius:20px;display:grid;place-items:center;font-size:30px;background:rgba(80,240,176,.09);border:1px solid rgba(80,240,176,.25)}
+.login-title{font-size:21px;font-weight:850}.login-sub{margin-top:6px;font-size:9px;color:var(--m);letter-spacing:.16em}
+.login-form{margin-top:24px;text-align:left}.login-label{display:block;margin:0 0 7px 3px;font-size:9px;color:#9dc3b4;letter-spacing:.12em;text-transform:uppercase}
+.login-input{width:100%;height:48px;padding:0 15px;margin-bottom:14px;border-radius:14px;border:1px solid rgba(126,255,202,.14);outline:none;background:rgba(255,255,255,.045);color:var(--t);font-size:15px}
+.login-input:focus{border-color:rgba(85,242,173,.55);box-shadow:0 0 0 3px rgba(85,242,173,.08)}
+.login-button{width:100%;height:49px;border:0;border-radius:15px;margin-top:4px;cursor:pointer;background:linear-gradient(135deg,#55f2ad,#27c984);color:#032116;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.login-error{height:18px;margin-top:10px;color:#ff7b88;font-size:10px;font-weight:700}
+#appContent{display:none}
+
+/* LIVE WEATHER / DAY-NIGHT VISUAL ENGINE */
+.sky{z-index:1;transition:background 2s ease}
+.scene{z-index:2}
+.app{--sky1:#061712;--sky2:#03100b;transition:background 2s ease}
+.app.day{background:linear-gradient(180deg,#72c9e8 0%,#b9e8df 34%,#3d9b68 72%,#07180f 100%)}
+.app.sunrise{background:linear-gradient(180deg,#ef8e6e 0%,#f5c878 25%,#78c9b4 48%,#173b28 100%)}
+.app.sunset{background:linear-gradient(180deg,#5b315a 0%,#df775e 28%,#efb26a 48%,#123020 100%)}
+.app.night{background:linear-gradient(180deg,#020617 0%,#031a1b 42%,#03120c 72%,#020806 100%)}
+.sun{position:absolute;width:92px;height:92px;border-radius:50%;left:50%;top:10%;transform:translateX(-50%);background:#fff4a6;box-shadow:0 0 35px 10px rgba(255,224,110,.5),0 0 100px 30px rgba(255,190,60,.18);opacity:0;transition:all 2s ease}
+.moon{transition:opacity 2s ease,transform 2s ease}
+.app.day .sun{opacity:.95}
+.app.sunrise .sun,.app.sunset .sun{opacity:.7}
+.app.night .sun{opacity:0}
+.app.day .moon,.app.sunrise .moon,.app.sunset .moon{opacity:0}
+.app.night .moon{opacity:1}
+.stars{position:absolute;inset:0;opacity:0;transition:opacity 2s ease;background-image:radial-gradient(circle at 8% 18%,#fff 0 1px,transparent 1.5px),radial-gradient(circle at 20% 30%,#fff 0 1px,transparent 1.5px),radial-gradient(circle at 35% 14%,#fff 0 1px,transparent 1.5px),radial-gradient(circle at 48% 24%,#fff 0 1px,transparent 1.5px),radial-gradient(circle at 65% 12%,#fff 0 1px,transparent 1.5px),radial-gradient(circle at 78% 28%,#fff 0 1px,transparent 1.5px),radial-gradient(circle at 91% 16%,#fff 0 1px,transparent 1.5px),radial-gradient(circle at 56% 38%,#fff 0 1px,transparent 1.5px)}
+.app.night .stars{opacity:.8;animation:starTwinkle 4s ease-in-out infinite alternate}
+@keyframes starTwinkle{from{opacity:.45}to{opacity:.95}}
+.cloud{z-index:3;opacity:.12;transition:opacity 1.5s ease}
+.app.day .cloud{opacity:.5}
+.app.sunrise .cloud,.app.sunset .cloud{opacity:.4}
+.app.night .cloud{opacity:.18}
+.weatherGlow{position:absolute;inset:-20%;pointer-events:none;opacity:0;transition:opacity 2s ease;background:radial-gradient(circle at 50% 30%,rgba(255,220,140,.24),transparent 35%)}
+.app.day .weatherGlow{opacity:1}
+.rain{position:absolute;inset:0;opacity:0;pointer-events:none;z-index:25;transition:opacity .7s ease;background-image:repeating-linear-gradient(105deg,transparent 0 18px,rgba(185,235,255,.55) 19px 21px,transparent 22px 42px);background-size:80px 120px;animation:rainFall .55s linear infinite}
+.app.rain .rain,.app.storm .rain{opacity:.6}
+@keyframes rainFall{from{background-position:0 -120px}to{background-position:80px 120px}}
+.lightning{position:absolute;inset:0;z-index:26;pointer-events:none;opacity:0;background:rgba(220,245,255,.8)}
+.app.storm .lightning{animation:flash 7s infinite}
+@keyframes flash{0%,88%,91%,100%{opacity:0}89%{opacity:.65}90%{opacity:.08}}
+.app.rain .cloud,.app.storm .cloud{opacity:.75}
+.app.rain .moon,.app.storm .moon{opacity:.08}
+.app.rain .stars,.app.storm .stars{opacity:.05}
+.app.fog:after{content:"";position:absolute;inset:0;z-index:24;pointer-events:none;background:linear-gradient(180deg,rgba(210,230,220,.08),rgba(210,230,220,.22));backdrop-filter:blur(1px)}
+.weather-tag{position:absolute;top:58px;left:50%;transform:translateX(-50%);z-index:31;padding:6px 11px;border-radius:20px;background:rgba(3,15,11,.42);border:1px solid rgba(180,255,220,.13);font-size:9px;letter-spacing:.08em;color:#d8f7e9;white-space:nowrap;backdrop-filter:blur(10px);pointer-events:none}
+.weather-tag b{color:#fff}
 </style>
 </head>
-
-
 <body>
 
-
-<!-- ======================================================
-     LOGIN SCREEN
-====================================================== -->
-
-<div id="loginScreen">
-
-    <div class="loginBox">
-
-        <div class="loginLamp">
-            💡
-        </div>
-
-        <div class="loginTitle">
-            GREENFIELD
-        </div>
-
-        <div class="loginSub">
-            SMART STREET LIGHT CONTROL
-        </div>
-
-        <input
-            id="password"
-            class="password"
-            type="password"
-            placeholder="Enter dashboard password"
-            autocomplete="off"
-        >
-
-        <button
-            class="loginButton"
-            onclick="login()"
-        >
-            OPEN DASHBOARD
-        </button>
-
-        <div
-            id="loginError"
-            class="loginError"
-        >
-            Incorrect password
-        </div>
-
-    </div>
-
+<div class="login-screen" id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo">🌿</div>
+    <div class="login-title">Greenfield Street Lights</div>
+    <div class="login-sub">SILIGURI SMART LIGHTING</div>
+    <form class="login-form" id="loginForm" autocomplete="off">
+      <label class="login-label" for="loginUser">Username</label>
+      <input class="login-input" id="loginUser" type="text" placeholder="Enter username" autocomplete="username" required>
+      <label class="login-label" for="loginPass">Password</label>
+      <input class="login-input" id="loginPass" type="password" placeholder="Enter password" autocomplete="current-password" required>
+      <button class="login-button" type="submit">Login</button>
+      <div class="login-error" id="loginError"></div>
+    </form>
+  </div>
 </div>
+<div id="appContent">
 
-
-
-<!-- ======================================================
-     APPLICATION
-====================================================== -->
-
-<div id="app">
-
-<div class="appShell">
-
-
-<!-- ======================================================
-     HEADER
-====================================================== -->
-
-<header class="header">
-
-    <div class="brand">
-
-        <div class="brandLogo">
-            🌺
-        </div>
-
-        <div>
-
-            <div class="brandName">
-                GREENFIELD
-            </div>
-
-            <div class="brandSub">
-                SMART STREET LIGHT
-            </div>
-
-        </div>
-
+<div class="app">
+<div class="sky">
+      <div class="sun"></div>
+      <div class="moon"></div>
+      <div class="stars"></div>
+      <div class="cloud cloud1"></div>
+      <div class="cloud cloud2"></div>
+      <div class="rain" id="rain"></div>
+      <div class="lightning" id="lightning"></div>
+      <div class="weatherGlow"></div>
     </div>
-
-
-    <div
-        id="connection"
-        class="connection offline"
-    >
-
-        <span class="connectionDot"></span>
-
-        <span id="connectionText">
-            NOT CONNECTED
-        </span>
-
-    </div>
-
-</header>
-
-
-
-<!-- ======================================================
-     CLOCK
-====================================================== -->
-
-<section class="clockBar">
-
-    <div>
-
-        <div
-            id="liveTime"
-            class="time"
-        >
-            --:--:--
-        </div>
-
-        <div
-            id="liveDate"
-            class="date"
-        >
-            Loading...
-        </div>
-
-    </div>
-
-
-    <div class="networkText">
-
-        <div class="networkLabel">
-            SYSTEM
-        </div>
-
-        <div
-            id="systemText"
-            class="networkValue"
-        >
-            CONNECTING
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- ======================================================
-     PREMIUM KRISHNACHURA SCENE
-====================================================== -->
-
 <section class="scene">
-
-
-    <!-- STARS -->
-
-    <span class="star"
-          style="left:8%;top:13%"></span>
-
-    <span class="star"
-          style="left:18%;top:25%"></span>
-
-    <span class="star"
-          style="left:29%;top:10%"></span>
-
-    <span class="star"
-          style="left:40%;top:21%"></span>
-
-    <span class="star"
-          style="left:52%;top:12%"></span>
-
-    <span class="star"
-          style="left:63%;top:27%"></span>
-
-    <span class="star"
-          style="left:74%;top:9%"></span>
-
-    <span class="star"
-          style="left:88%;top:25%"></span>
-
-
-    <!-- MOON -->
-
-    <div class="moon"></div>
-
-
-    <!-- FIREFLIES -->
-
-    <span
-        class="firefly"
-        style="
-            left:18%;
-            top:57%;
-            --x:20px;
-            --y:-35px;
-            --speed:4s;
-        "
-    ></span>
-
-    <span
-        class="firefly"
-        style="
-            left:30%;
-            top:66%;
-            --x:-15px;
-            --y:-28px;
-            --speed:5.5s;
-        "
-    ></span>
-
-    <span
-        class="firefly"
-        style="
-            left:70%;
-            top:59%;
-            --x:18px;
-            --y:-40px;
-            --speed:4.8s;
-        "
-    ></span>
-
-    <span
-        class="firefly"
-        style="
-            left:82%;
-            top:70%;
-            --x:-20px;
-            --y:-30px;
-            --speed:6s;
-        "
-    ></span>
-
-
-    <!-- GROUND -->
-
-    <div class="ground"></div>
-
-    <div class="grass"></div>
-
-
-    <!-- ROAD -->
-
-    <div class="road">
-
-        <div class="roadLine"></div>
-
-    </div>
-
-
-    <!-- ==================================================
-         LARGE KRISHNACHURA TREE LEFT
-    ================================================== -->
-
-    <div class="tree treeA">
-
-        <div class="trunkMain"></div>
-
-        <div class="branch branch1"></div>
-        <div class="branch branch2"></div>
-        <div class="branch branch3"></div>
-        <div class="branch branch4"></div>
-
-
-        <div class="canopy c1"></div>
-        <div class="canopy c2"></div>
-        <div class="canopy c3"></div>
-        <div class="canopy c4"></div>
-        <div class="canopy c5"></div>
-
-
-        <!-- FLOWERS -->
-
-        <div class="flower"
-             style="left:45px;top:45px">
-            <span class="petal"></span>
-            <span class="petal"></span>
-            <span class="petal"></span>
-            <span class="petal"></span>
-            <span class="flowerCenter"></span>
-        </div>
-
-        <div class="flower"
-             style="left:104px;top:55px">
-            <span class="petal"></span>
-            <span class="petal"></span>
-            <span class="petal"></span>
-            <span class="petal"></span>
-            <span class="flowerCenter"></span>
-        </div>
-
-        <div class="flower"
-             style="left:73px;top:103px">
-            <span class="petal"></span>
-            <span class="petal"></span>
-            <span class="petal"></span>
-            <span class="petal"></span>
-            <span class="flowerCenter"></span>
-        </div>
-
-        <div class="flower"
-             style="left:126px;top:112px">
-            <span class="petal"></span>
-            <span class="petal"></span>
-            <span class="petal"></span>
-            <span class="petal"></span>
-            <span class="flowerCenter"></span>
-        </div>
-
-        <div class="flower"
-             style="left:45px;top:144px">
-            <span class="petal"></span>
-            <span class="petal"></span>
-            <span class="petal"></span>
-            <span class="petal"></span>
-            <span class="flowerCenter"></span>
-        </div>
-
-    </div>
-
-
-
-    <!-- ==================================================
-         LARGE KRISHNACHURA TREE RIGHT
-    ================================================== -->
-
-    <div class="tree treeB">
-
-        <div class="trunkMain"></div>
-
-        <div class="branch branch1"></div>
-        <div class="branch branch2"></div>
-        <div class="branch branch3"></div>
-        <div class="branch branch4"></div>
-
-        <div class="canopy c1"></div>
-        <div class="canopy c2"></div>
-        <div class="canopy c3"></div>
-        <div class="canopy c4"></div>
-        <div class="canopy c5"></div>
-
-
-        <div class="flower"
-             style="left:42px;top:50px">
-            <span class="petal"></span>
-            <span class="petal"></span>
-            <span class="petal"></span>
-            <span class="petal"></span>
-            <span class="flowerCenter"></span>
-        </div>
-
-        <div class="flower"
-             style="left:112px;top:45px">
-            <span class="petal"></span>
-            <span class="petal"></span>
-            <span class="petal"></span>
-            <span class="petal"></span>
-            <span class="flowerCenter"></span>
-        </div>
-
-        <div class="flower"
-             style="left:70px;top:94px">
-            <span class="petal"></span>
-            <span class="petal"></span>
-            <span class="petal"></span>
-            <span class="petal"></span>
-            <span class="flowerCenter"></span>
-        </div>
-
-        <div class="flower"
-             style="left:135px;top:122px">
-            <span class="petal"></span>
-            <span class="petal"></span>
-            <span class="petal"></span>
-            <span class="petal"></span>
-            <span class="flowerCenter"></span>
-        </div>
-
-        <div class="flower"
-             style="left:46px;top:138px">
-            <span class="petal"></span>
-            <span class="petal"></span>
-            <span class="petal"></span>
-            <span class="petal"></span>
-            <span class="flowerCenter"></span>
-        </div>
-
-    </div>
-
-
-
-    <!-- ==================================================
-         BACKGROUND TREES
-    ================================================== -->
-
-    <div class="tree treeC">
-
-        <div class="trunkMain"></div>
-
-        <div class="branch branch1"></div>
-        <div class="branch branch2"></div>
-        <div class="branch branch3"></div>
-
-        <div class="canopy c1"></div>
-        <div class="canopy c2"></div>
-        <div class="canopy c3"></div>
-
-    </div>
-
-
-    <div class="tree treeD">
-
-        <div class="trunkMain"></div>
-
-        <div class="branch branch1"></div>
-        <div class="branch branch2"></div>
-        <div class="branch branch3"></div>
-
-        <div class="canopy c1"></div>
-        <div class="canopy c2"></div>
-        <div class="canopy c3"></div>
-
-    </div>
-
-
-
-    <!-- ==================================================
-         STREET LIGHT 1
-    ================================================== -->
-
-    <div class="streetLight sl1">
-
-        <div class="pole"></div>
-
-        <div class="arm"></div>
-
-        <div class="lamp"></div>
-
-        <div class="lightBeam"></div>
-
-    </div>
-
-
-
-    <!-- ==================================================
-         STREET LIGHT 2
-    ================================================== -->
-
-    <div class="streetLight sl2">
-
-        <div class="pole"></div>
-
-        <div class="arm"></div>
-
-        <div class="lamp"></div>
-
-        <div class="lightBeam"></div>
-
-    </div>
-
-
-
-    <!-- ==================================================
-         CENTER DISTANT LIGHT
-    ================================================== -->
-
-    <div class="streetLight sl3">
-
-        <div class="pole"></div>
-
-        <div class="arm"></div>
-
-        <div class="lamp"></div>
-
-        <div class="lightBeam"></div>
-
-    </div>
-
-
+<div class="connection checking" id="connection"><span class="dot"></span><span id="connectionText">CHECKING</span></div><div class="weather-tag" id="weatherTag">LIVE WEATHER • <b>CONNECTING</b></div>
+<div class="forest">
+  <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+</div>
+<div class="ground"></div><div class="road"></div><div class="roadline"></div>
+
+<div class="tree tree1"><div class="trunk"></div><div class="branch b1"></div><div class="branch b2"></div><div class="leaves a"></div><div class="leaves b"></div><div class="leaves c"></div><div class="leaves d"></div></div>
+<div class="tree tree2 right"><div class="trunk"></div><div class="branch b1"></div><div class="branch b2"></div><div class="leaves a"></div><div class="leaves b"></div><div class="leaves c"></div><div class="leaves d"></div></div>
+<div class="tree tree3"><div class="trunk"></div><div class="branch b1"></div><div class="branch b2"></div><div class="leaves a"></div><div class="leaves b"></div><div class="leaves c"></div></div>
+<div class="tree tree4 right"><div class="trunk"></div><div class="branch b1"></div><div class="branch b2"></div><div class="leaves a"></div><div class="leaves b"></div><div class="leaves c"></div></div>
+
+<div class="flower f1"><div class="stem"></div><div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div><div class="petal p4"></div><div class="center"></div></div>
+<div class="flower yellow f2"><div class="stem"></div><div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div><div class="petal p4"></div><div class="center"></div></div>
+<div class="flower white f3"><div class="stem"></div><div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div><div class="petal p4"></div><div class="center"></div></div>
+<div class="flower purple f4"><div class="stem"></div><div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div><div class="petal p4"></div><div class="center"></div></div>
+<div class="flower yellow f5"><div class="stem"></div><div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div><div class="petal p4"></div><div class="center"></div></div>
+<div class="flower white f6"><div class="stem"></div><div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div><div class="petal p4"></div><div class="center"></div></div>
+
+<div class="grass g1"><span></span><span></span><span></span><span></span><span></span></div>
+<div class="grass g2"><span></span><span></span><span></span><span></span><span></span></div>
+<div class="grass g3"><span></span><span></span><span></span><span></span><span></span></div>
+<div class="grass g4"><span></span><span></span><span></span><span></span><span></span></div>
+
+<div class="lamp l1"></div><div class="lightpool lp1"></div>
+<div class="lamp l2"></div><div class="lightpool lp2"></div>
+<div class="lamp l3"></div><div class="lightpool lp3"></div>
+<div class="lamp l4"></div><div class="lightpool lp4"></div>
+
+<span class="firefly" style="left:12%;top:43%"></span>
+<span class="firefly" style="left:76%;top:49%"></span>
+<span class="firefly" style="left:58%;top:32%"></span>
+<span class="firefly" style="left:32%;top:39%"></span>
+<span class="firefly" style="left:87%;top:35%"></span>
 </section>
-
-
-
-<!-- ======================================================
-     CONTROL
-====================================================== -->
-
-<section class="control">
-
-    <div class="controlHeader">
-
-        <div>
-
-            <div class="controlTitle">
-                Premises Street Lights
-            </div>
-
-            <div class="controlSubtitle">
-                Main relay control
-            </div>
-
-        </div>
-
-
-        <label class="relaySwitch">
-
-            <input
-                id="relaySwitch"
-                type="checkbox"
-                onchange="toggleRelay()"
-            >
-
-            <span class="slider"></span>
-
-        </label>
-
-    </div>
-
-
-    <div class="statusRow">
-
-        <div>
-
-            <div
-                id="mainStatus"
-                class="bigStatus off"
-            >
-                LIGHTS OFF
-            </div>
-
-            <div
-                id="statusDescription"
-                class="statusDescription"
-            >
-                Street lights are currently switched off
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- ======================================================
-     STATUS
-====================================================== -->
-
-<section class="infoGrid">
-
-
-    <div class="infoCard">
-
-        <div class="infoIcon">
-            💡
-        </div>
-
-        <div class="infoLabel">
-            Light Status
-        </div>
-
-        <div
-            id="currentStatus"
-            class="infoValue"
-        >
-            OFF
-        </div>
-
-    </div>
-
-
-    <div class="infoCard">
-
-        <div class="infoIcon">
-            📡
-        </div>
-
-        <div class="infoLabel">
-            Connection
-        </div>
-
-        <div
-            id="connectionCard"
-            class="infoValue"
-        >
-            NOT CONNECTED
-        </div>
-
-    </div>
-
-
-    <div class="infoCard">
-
-        <div class="infoIcon">
-            🌺
-        </div>
-
-        <div class="infoLabel">
-            Last ON
-        </div>
-
-        <div
-            id="lastOn"
-            class="infoValue"
-        >
-            --
-        </div>
-
-    </div>
-
-
-    <div class="infoCard">
-
-        <div class="infoIcon">
-            🌙
-        </div>
-
-        <div class="infoLabel">
-            Last OFF
-        </div>
-
-        <div
-            id="lastOff"
-            class="infoValue"
-        >
-            --
-        </div>
-
-    </div>
-
-
-</section>
-
-
-<div class="footer">
-
-    GREENFIELD • SMART STREET LIGHT • KRISHNACHURA NIGHT
-
-</div>
-
-
+<section class="panel"><div class="toprow"><div><div class="title">Greenfield Street Lights</div><div class="sub">SILIGURI SMART LIGHTING</div></div><button class="toggle" id="toggle" aria-label="Toggle street lights"><div class="knob"></div></button></div><div class="metrics"><div class="metric"><b id="power">--</b><span>Light state</span></div><div class="metric"><b id="lastOn">--:--</b><span>Last ON</span></div><div class="metric full"><b id="clock">--:--:--</b><span>Live time</span></div></div><div class="status checking" id="status"><strong>Checking real device...</strong></div></section>
 </div>
 </div>
-
-
-
-<!-- ======================================================
-     LOADING
-====================================================== -->
-
-<div
-    id="loading"
-    class="loading"
->
-
-    <div class="spinner"></div>
-
-</div>
-
-
-
 <script>
+const LOGIN_USERNAME="greenfield";
+const LOGIN_PASSWORD="1234";
+const loginScreen=document.getElementById("loginScreen");
+const appContent=document.getElementById("appContent");
+const loginForm=document.getElementById("loginForm");
+const loginUser=document.getElementById("loginUser");
+const loginPass=document.getElementById("loginPass");
+const loginError=document.getElementById("loginError");
 
-/* =========================================================
-   ADAFRUIT IO CONFIGURATION
-========================================================= */
+function showApp(){loginScreen.style.display="none";appContent.style.display="block";}
+loginForm.addEventListener("submit",function(e){
+  e.preventDefault();
+  if(loginUser.value.trim()===LOGIN_USERNAME && loginPass.value===LOGIN_PASSWORD){
+    sessionStorage.setItem("greenfield_logged_in","1"); showApp(); startWeather();
+  }else{
+    loginError.textContent="Incorrect username or password";
+    loginPass.value=""; loginPass.focus();
+  }
+});
+if(sessionStorage.getItem("greenfield_logged_in")==="1")showApp();
 
-const AIO_USERNAME = "Greenfield";
+const WEBHOOK_URL="https://io.adafruit.com/api/v2/webhooks/feed/woZT9qdVzza8AzWgUCVYjWZrN4kY/raw";
+const AIO_USERNAME="Greenfield";
+const AIO_KEY="aio_UaXO85J32oLUK5e08AxczolzEmCn";
+const STATUS_FEED="relay-status";
+const DEVICE_TIMEOUT=45000;
+const STATUS_CHECK_INTERVAL=5000;
 
-const AIO_KEY =
-    "aio_aslC19WRtvkEnnBZx4Q0tf6mA7yZ";
+const toggle=document.getElementById('toggle'),power=document.getElementById('power'),
+lastOn=document.getElementById('lastOn'),clock=document.getElementById('clock'),
+status=document.getElementById('status'),connection=document.getElementById('connection'),
+connectionText=document.getElementById('connectionText');
+const lamps=[...document.querySelectorAll('.lamp')],pools=[...document.querySelectorAll('.lightpool')];
 
-const AIO_FEED = "relay";
+let state=null,deviceOnline=false,lastDeviceUpdate=null,commandPending=false;
 
-const AIO_BASE =
-    "https://io.adafruit.com/api/v2/" +
-    AIO_USERNAME +
-    "/feeds/" +
-    AIO_FEED;
-
-const DASHBOARD_PASSWORD = "1234";
-
-
-/* =========================================================
-   VARIABLES
-========================================================= */
-
-let relayState = false;
-
-let previousState = null;
-
-let lastOnTime = null;
-
-let lastOffTime = null;
-
-let polling = false;
-
-
-/* =========================================================
-   LOGIN
-========================================================= */
-
-function login(){
-
-    const password =
-        document.getElementById("password").value;
-
-    if(password === DASHBOARD_PASSWORD){
-
-        document.getElementById("loginScreen")
-            .style.display = "none";
-
-        document.getElementById("app")
-            .style.display = "block";
-
-        startDashboard();
-
-    }
-    else{
-
-        document.getElementById("loginError")
-            .style.display = "block";
-
-    }
-
-}
-
-
-document
-    .getElementById("password")
-    .addEventListener(
-        "keydown",
-        function(event){
-
-            if(event.key === "Enter"){
-                login();
-            }
-
-        }
-    );
-
-
-/* =========================================================
-   LIVE CLOCK
-========================================================= */
-
+lastOn.textContent=localStorage.getItem('greenfieldLastOn')||'--:--';
 function updateClock(){
-
-    const now = new Date();
-
-    document.getElementById("liveTime")
-        .textContent =
-        now.toLocaleTimeString(
-            "en-IN",
-            {
-                hour:"2-digit",
-                minute:"2-digit",
-                second:"2-digit",
-                hour12:true
-            }
-        );
-
-    document.getElementById("liveDate")
-        .textContent =
-        now.toLocaleDateString(
-            "en-IN",
-            {
-                weekday:"long",
-                day:"2-digit",
-                month:"long",
-                year:"numeric"
-            }
-        );
-
+  clock.textContent=new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'});
 }
+setInterval(updateClock,1000); updateClock();
 
-updateClock();
-
-setInterval(
-    updateClock,
-    1000
-);
-
-
-/* =========================================================
-   CONNECTION STATUS
-========================================================= */
-
-function setConnection(connected){
-
-    const box =
-        document.getElementById("connection");
-
-    const text =
-        document.getElementById("connectionText");
-
-    const card =
-        document.getElementById("connectionCard");
-
-    const system =
-        document.getElementById("systemText");
-
-
-    if(connected){
-
-        box.classList.remove("offline");
-
-        box.classList.add("live");
-
-        text.textContent = "LIVE";
-
-        card.textContent = "CONNECTED";
-
-        system.textContent = "ONLINE";
-
-    }
-    else{
-
-        box.classList.remove("live");
-
-        box.classList.add("offline");
-
-        text.textContent = "NOT CONNECTED";
-
-        card.textContent = "OFFLINE";
-
-        system.textContent = "CONNECTION LOST";
-
-    }
-
+function setConnection(mode){
+  connection.classList.remove('offline','checking');
+  if(mode==='live'){connectionText.textContent='LIVE';return}
+  if(mode==='offline'){connection.classList.add('offline');connectionText.textContent='NOT CONNECTED';return}
+  connection.classList.add('checking');connectionText.textContent='CHECKING';
 }
-
-
-/* =========================================================
-   READ LATEST ADAFRUIT IO VALUE
-========================================================= */
-
-async function getRelayState(){
-
-    if(polling){
-        return;
-    }
-
-    polling = true;
-
-    try{
-
-        const response =
-            await fetch(
-                AIO_BASE + "/data/last",
-                {
-                    method:"GET",
-
-                    headers:{
-                        "X-AIO-Key":AIO_KEY,
-                        "Accept":"application/json"
-                    },
-
-                    cache:"no-store"
-                }
-            );
-
-
-        if(!response.ok){
-
-            throw new Error(
-                "HTTP " +
-                response.status
-            );
-
-        }
-
-
-        const data =
-            await response.json();
-
-
-        setConnection(true);
-
-
-        const value =
-            String(data.value)
-                .trim()
-                .toLowerCase();
-
-
-        const state =
-            value === "on" ||
-            value === "1" ||
-            value === "true";
-
-
-        applyRelayState(state);
-
-    }
-    catch(error){
-
-        console.error(
-            "Adafruit IO:",
-            error
-        );
-
-        setConnection(false);
-
-    }
-    finally{
-
-        polling = false;
-
-    }
-
+function setStatus(message,mode='live'){
+  status.classList.remove('offline','checking');
+  if(mode==='offline')status.classList.add('offline');
+  if(mode==='checking')status.classList.add('checking');
+  status.innerHTML=message;
 }
-
-
-/* =========================================================
-   APPLY RELAY STATE
-========================================================= */
-
-function applyRelayState(state){
-
-    /*
-       Only record ON/OFF time when the
-       actual state changes.
-    */
-
-    if(
-        previousState !== null &&
-        previousState !== state
-    ){
-
-        if(state){
-
-            lastOnTime =
-                new Date();
-
-        }
-        else{
-
-            lastOffTime =
-                new Date();
-
-        }
-
-    }
-
-
-    previousState = state;
-
-    relayState = state;
-
-    updateInterface(state);
-
+function render(){
+  if(state===null){
+    power.textContent='--'; power.style.color='var(--m)';
+    toggle.classList.remove('active'); lamps.forEach(x=>x.classList.remove('on')); pools.forEach(x=>x.classList.remove('on')); return;
+  }
+  toggle.classList.toggle('active',state);
+  lamps.forEach(x=>x.classList.toggle('on',state));
+  pools.forEach(x=>x.classList.toggle('on',state));
+  power.textContent=state?'ON':'OFF';
+  power.style.color=state?'var(--g)':'var(--r)';
 }
+function escapeHTML(v){return v.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
 
-
-/* =========================================================
-   UPDATE SCENE
-========================================================= */
-
-function updateInterface(state){
-
-    const switchElement =
-        document.getElementById(
-            "relaySwitch"
-        );
-
-    const status =
-        document.getElementById(
-            "mainStatus"
-        );
-
-    const description =
-        document.getElementById(
-            "statusDescription"
-        );
-
-    const current =
-        document.getElementById(
-            "currentStatus"
-        );
-
-
-    switchElement.checked = state;
-
-
-    /*
-       Turn ALL street lights ON/OFF.
-    */
-
-    document
-        .querySelectorAll(".streetLight")
-        .forEach(
-            function(light){
-
-                if(state){
-
-                    light.classList.add(
-                        "lightOn"
-                    );
-
-                }
-                else{
-
-                    light.classList.remove(
-                        "lightOn"
-                    );
-
-                }
-
-            }
-        );
-
-
+async function checkRealDeviceStatus(){
+  try{
+    const url='https://io.adafruit.com/api/v2/'+encodeURIComponent(AIO_USERNAME)+'/feeds/'+encodeURIComponent(STATUS_FEED)+'/data?limit=1';
+    const response=await fetch(url,{headers:{'X-AIO-Key':AIO_KEY},cache:'no-store'});
+    if(!response.ok)throw new Error('HTTP '+response.status);
+    const data=await response.json();
+    if(!Array.isArray(data)||!data.length){
+      deviceOnline=false;setConnection('offline');setStatus('<strong>Waiting for ESP32 status...</strong>','offline');return;
+    }
+    const latest=data[0],t=new Date(latest.created_at),age=Date.now()-t.getTime();
+    lastDeviceUpdate=t;
+    if(!Number.isFinite(age)||age>DEVICE_TIMEOUT){
+      deviceOnline=false;setConnection('offline');
+      setStatus('<strong>ESP32 not responding</strong><br><span style="opacity:.7">No heartbeat received for more than 45 seconds</span>','offline');return;
+    }
+    deviceOnline=true;setConnection('live');
+    const v=String(latest.value).trim().toUpperCase();
+    if(v==='ON')state=true;else if(v==='OFF')state=false;
+    else {setStatus('<strong>Invalid device status</strong>','checking');return}
     if(state){
-
-        status.textContent =
-            "LIGHTS ON";
-
-        status.classList.remove("off");
-
-        status.classList.add("on");
-
-        description.textContent =
-            "Premises street lights are illuminated";
-
-        current.textContent =
-            "ON";
-
+      const t2=t.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+      lastOn.textContent=t2;localStorage.setItem('greenfieldLastOn',t2);
     }
-    else{
-
-        status.textContent =
-            "LIGHTS OFF";
-
-        status.classList.remove("on");
-
-        status.classList.add("off");
-
-        description.textContent =
-            "Street lights are currently switched off";
-
-        current.textContent =
-            "OFF";
-
-    }
-
-
-    updateLastTimes();
-
+    commandPending=false;toggle.disabled=false;render();
+    const sec=Math.max(0,Math.floor(age/1000));
+    setStatus(state?'<strong>All streetlights illuminated</strong><br><span style="opacity:.65">ESP32 online • updated '+sec+'s ago</span>':'<strong style="color:var(--r)">Streetlights switched OFF</strong><br><span style="opacity:.65">ESP32 online • updated '+sec+'s ago</span>','live');
+  }catch(e){
+    console.error(e);setConnection('checking');setStatus('<strong style="color:var(--y)">Checking Adafruit IO connection...</strong>','checking');
+  }
 }
-
-
-/* =========================================================
-   LAST ON / OFF
-========================================================= */
-
-function updateLastTimes(){
-
-    document.getElementById("lastOn")
-        .textContent =
-        formatTime(lastOnTime);
-
-    document.getElementById("lastOff")
-        .textContent =
-        formatTime(lastOffTime);
-
+async function sendCommand(){
+  if(state===null)return;
+  const value=state?'ON':'OFF'; commandPending=true;toggle.disabled=true;
+  setStatus('<strong style="color:var(--y)">Sending '+value+' command...</strong>','checking');
+  try{await fetch(WEBHOOK_URL,{method:'POST',body:value,mode:'no-cors'});setStatus('<strong style="color:var(--y)">Command sent • waiting for ESP32...</strong>','checking')}
+  catch(e){commandPending=false;toggle.disabled=false;setStatus('<strong style="color:var(--r)">Command could not be sent</strong>','offline')}
+  setTimeout(checkRealDeviceStatus,1500);
 }
+toggle.onclick=()=>{if(toggle.disabled)return;if(state===null){checkRealDeviceStatus();return}state=!state;render();sendCommand()};
+render();setConnection('checking');checkRealDeviceStatus();setInterval(checkRealDeviceStatus,STATUS_CHECK_INTERVAL);
 
+/* LIVE WEATHER ENGINE
+   Exact location requested: 26.754508, 88.448859.
+   Open-Meteo supplies current weather, is_day, wind and weather code,
+   plus sunrise/sunset astronomical data. */
+const WEATHER_LAT=26.754508, WEATHER_LON=88.448859;
+const weatherTag=document.getElementById('weatherTag');
+const app=document.querySelector('.app');
 
-function formatTime(date){
-
-    if(!date){
-        return "--";
-    }
-
-    return date.toLocaleTimeString(
-        "en-IN",
-        {
-            hour:"2-digit",
-            minute:"2-digit",
-            second:"2-digit",
-            hour12:true
-        }
-    );
-
+function weatherName(code){
+  if(code===0)return 'CLEAR';
+  if([1,2,3].includes(code))return 'CLOUDY';
+  if([45,48].includes(code))return 'FOG';
+  if([51,53,55,56,57].includes(code))return 'DRIZZLE';
+  if([61,63,65,66,67,80,81,82].includes(code))return 'RAIN';
+  if([71,73,75,77,85,86].includes(code))return 'SNOW';
+  if([95,96,99].includes(code))return 'STORM';
+  return 'WEATHER';
 }
+function applyWeather(w){
+  const c=w.weather_code, day=!!w.is_day;
+  app.classList.remove('day','night','sunrise','sunset','rain','storm','fog');
+  let base=day?'day':'night';
+  const now=new Date();
+  if(w.sunrise&&w.sunset){
+    const sr=new Date(w.sunrise),ss=new Date(w.sunset);
+    const srDiff=Math.abs(now-sr)/60000, ssDiff=Math.abs(now-ss)/60000;
+    if(srDiff<45)base='sunrise';
+    if(ssDiff<45)base='sunset';
+  }
+  app.classList.add(base);
+  if([51,53,55,56,57,61,63,65,66,67,80,81,82].includes(c))app.classList.add('rain');
+  if([95,96,99].includes(c))app.classList.add('storm');
+  if([45,48].includes(c))app.classList.add('fog');
 
-
-/* =========================================================
-   SEND RELAY COMMAND
-========================================================= */
-
-async function sendRelay(state){
-
-    const value =
-        state ? "ON" : "OFF";
-
-
-    document.getElementById("loading")
-        .style.display = "flex";
-
-
-    try{
-
-        const response =
-            await fetch(
-                AIO_BASE + "/data",
-                {
-                    method:"POST",
-
-                    headers:{
-                        "X-AIO-Key":AIO_KEY,
-
-                        "Content-Type":
-                            "application/json",
-
-                        "Accept":
-                            "application/json"
-                    },
-
-                    body:
-                        JSON.stringify({
-                            value:value
-                        })
-                }
-            );
-
-
-        if(!response.ok){
-
-            throw new Error(
-                "HTTP " +
-                response.status
-            );
-
-        }
-
-
-        setConnection(true);
-
-
-        /*
-           Update immediately.
-        */
-
-        applyRelayState(state);
-
-
-        /*
-           Verify actual Adafruit IO state.
-        */
-
-        setTimeout(
-            getRelayState,
-            600
-        );
-
-    }
-    catch(error){
-
-        console.error(
-            "Relay command failed:",
-            error
-        );
-
-
-        setConnection(false);
-
-
-        /*
-           Restore previous known state.
-        */
-
-        document
-            .getElementById("relaySwitch")
-            .checked =
-            relayState;
-
-
-        alert(
-            "Unable to control the street lights.\n\n" +
-            "Please check your internet connection."
-        );
-
-    }
-    finally{
-
-        document.getElementById("loading")
-            .style.display = "none";
-
-    }
-
+  const name=weatherName(c);
+  const temp=(w.temperature_2m!==undefined)?Math.round(w.temperature_2m):'--';
+  const wind=(w.wind_speed_10m!==undefined)?Math.round(w.wind_speed_10m):'--';
+  weatherTag.innerHTML='LIVE WEATHER • <b>'+name+'</b> • '+temp+'°C • WIND '+wind+' km/h';
 }
-
-
-/* =========================================================
-   SWITCH
-========================================================= */
-
-function toggleRelay(){
-
-    const desiredState =
-        document
-            .getElementById("relaySwitch")
-            .checked;
-
-
-    sendRelay(
-        desiredState
-    );
-
+async function fetchWeather(){
+  try{
+    const url='https://api.open-meteo.com/v1/forecast?latitude='+WEATHER_LAT+
+      '&longitude='+WEATHER_LON+
+      '&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,wind_direction_10m,is_day'+
+      '&daily=sunrise,sunset&timezone=Asia%2FKolkata&forecast_days=1';
+    const r=await fetch(url,{cache:'no-store'});
+    if(!r.ok)throw new Error('Weather HTTP '+r.status);
+    const d=await r.json();
+    applyWeather({
+      ...d.current,
+      sunrise:d.daily?.sunrise?.[0],
+      sunset:d.daily?.sunset?.[0]
+    });
+  }catch(e){
+    console.warn('Weather unavailable',e);
+    weatherTag.innerHTML='LIVE WEATHER • <b>OFFLINE</b>';
+  }
 }
-
-
-/* =========================================================
-   START
-========================================================= */
-
-function startDashboard(){
-
-    /*
-       First immediate check.
-    */
-
-    getRelayState();
-
-
-    /*
-       Keep dashboard synchronized.
-    */
-
-    setInterval(
-        getRelayState,
-        2000
-    );
-
+let weatherStarted=false;
+function startWeather(){
+  if(weatherStarted)return;
+  weatherStarted=true;fetchWeather();setInterval(fetchWeather,5*60*1000);
 }
-
-
-/* =========================================================
-   RANDOM STAR ANIMATION
-========================================================= */
-
-document
-    .querySelectorAll(".star")
-    .forEach(
-        function(star,index){
-
-            star.style.animationDelay =
-                (index * .37) + "s";
-
-        }
-    );
-
+startWeather();
 </script>
-
 </body>
 </html>
